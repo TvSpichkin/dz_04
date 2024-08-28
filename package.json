@@ -1,0 +1,35 @@
+{
+  "name": "dz-04",
+  "version": "1.0.0",
+  "main": "src/index.ts",
+  "author": "TvSpichkin",
+  "license": "MIT",
+  "scripts": {
+    "watch": "tsc -w",
+    "смотр": "tsc -w",
+    "dev": "nodemon --inspect bin/index.js",
+    "раз": "nodemon --inspect bin/index.js",
+    "test": "jest",
+    "тест": "jest",
+    "build": "tsc",
+    "start": "node bin/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "express-validator": "^7.1.0",
+    "mongodb": "^6.8.0"
+  },
+  "devDependencies": {
+    "@types/express": "^4.17.21",
+    "@types/jest": "^29.5.12",
+    "@types/node": "^20.12.12",
+    "@types/supertest": "^6.0.2",
+    "jest": "^29.7.0",
+    "nodemon": "^3.1.0",
+    "supertest": "^7.0.0",
+    "ts-jest": "^29.1.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.4.5"
+  }
+}
