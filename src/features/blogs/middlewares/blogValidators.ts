@@ -1,4 +1,5 @@
-import {Request, Response, NextFunction} from "express";
+import {Response, NextFunction} from "express";
+import {ReqParam} from "../../../IOtypes/reqTypes";
 import {body} from "express-validator";
 import {blogsRep} from "../blogsRep";
 import {adminMiddleware} from "../../../globalMiddlewares/adminMiddleware";
@@ -17,7 +18,7 @@ const nameValidator = body("name").isString().withMessage('Имя не явля�
         .trim().isLength({min: 1, max: 100}).withMessage('ЕУР сетевого узла содержит больше 100 символов или является пустым')
         .custom(isURL).withMessage('Строка не является единым указателем ресурсов'); // Проверка правильности входящего ЕУР сетевого узла
 
-export async function findBlogValidator(req: Request<{id: string}>, res: Response, next: NextFunction) {
+export async function findBlogValidator(req: ReqParam<{id: string}>, res: Response, next: NextFunction) {
     const findBlog = await blogsRep.find(req.params.id); // Поиск сетевого журнала
     if(!findBlog) res.sendStatus(404); // Если не найдено, то возрат 404 статуса
     else {

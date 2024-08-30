@@ -1,4 +1,5 @@
-import {Request, Response, NextFunction} from "express";
+import {Response, NextFunction} from "express";
+import {ReqParam} from "../../../IOtypes/reqTypes";
 import {body} from "express-validator";
 import {postsRep} from "../postsRep";
 import {blogsRep} from "../../blogs/blogsRep";
@@ -21,7 +22,7 @@ const titleValidator = body("title").isString().withMessage('Название н
     blogIdValidator = body("blogId").isString().withMessage('Идентификатор сетевого журнала не является строкой')
         .trim().custom(checkExistBlog).withMessage('Сетевого журнала, с введённым идентификатором, не существует'); // Проверка правильности входящего идентификатора сетевого журнала
 
-export async function findPostValidator(req: Request<{id: string}>, res: Response, next: NextFunction) {
+export async function findPostValidator(req: ReqParam<{id: string}>, res: Response, next: NextFunction) {
     const findPost = await postsRep.find(req.params.id); // Поиск записи
     if(!findPost) res.sendStatus(404); // Если не найдено, то возрат 404 статуса
     else {
