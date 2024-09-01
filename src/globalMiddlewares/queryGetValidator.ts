@@ -3,8 +3,7 @@ import {SET} from "../settings";
 import {query} from "express-validator";
 
 
-const searchNameTermVal = query("searchNameTerm").optional().isString().withMessage('Имя не является строкой'),
-;
+const searchNameTermVal = query("searchNameTerm").optional().isString().withMessage('Имя не является строкой');
 
 export function queryGetValidator1(req: Request, res: Response, next: NextFunction) {
     const auth = req.headers["authorization"]; // Получение заголовка авторизации из запроса
