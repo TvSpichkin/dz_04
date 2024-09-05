@@ -24,7 +24,7 @@ export const blogsRep = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
-            createdAt: new Date().toISOString(),
+            createdAt: new Date().getTime(),
             isMembership: false
         };
 
@@ -50,7 +50,7 @@ export const blogsRep = {
             name: blog.name,
             description: blog.description,
             websiteUrl: blog.websiteUrl,
-            createdAt: blog.createdAt,
+            createdAt: new Date(blog.createdAt).toISOString(),
             isMembership: blog.isMembership
         };
 

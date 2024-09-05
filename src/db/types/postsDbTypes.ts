@@ -4,7 +4,7 @@ export type PostDbType = {
     shortDescription: string, // Краткое описание; максимальная длина: 100
     content: string, // Содержание; максимальная длина: 1000
     blogId: number, // Идентификатор существующего сетевого журнала
-    createdAt: string // Строка даты создания
+    createdAt: number // Дата создания
 }; // Тип записи в БД
 
 export type PostDbPutType = {
