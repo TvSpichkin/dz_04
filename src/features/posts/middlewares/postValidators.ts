@@ -1,8 +1,8 @@
 import {Response, NextFunction} from "express";
 import {ReqParam} from "../../../IOtypes/reqTypes";
 import {body} from "express-validator";
-import {postsRep} from "../postsRep";
-import {blogsRep} from "../../blogs/blogsRep";
+import {postsRep} from "../../../domain/postsServ";
+import {blogsRep} from "../../../domain/blogsServ";
 import {adminMiddleware} from "../../../globalMiddlewares/adminMiddleware";
 import {inputCheckErrorsMiddleware} from "../../../globalMiddlewares/inputCheckErrorsMiddleware";
 

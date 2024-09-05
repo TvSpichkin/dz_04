@@ -1,7 +1,7 @@
 import {Response} from "express";
 import {PostIdModel} from "../../../IOtypes/postsTypes";
 import {ReqParam} from "../../../IOtypes/reqTypes";
-import {postsRep} from "../postsRep";
+import {postsRep} from "../../../domain/postsServ";
 
 
 export async function delPostController(req: ReqParam<PostIdModel>, res: Response) {

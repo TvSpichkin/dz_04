@@ -1,6 +1,6 @@
-import {BlogDbType, BlogDbPutType} from "../../db/types/blogsDbTypes";
-import {repBD} from "../../db/repository/repDB";
-import {BlogInputModel, BlogViewModel} from "../../IOtypes/blogsTypes";
+import {BlogDbType, BlogDbPutType} from "../db/types/blogsDbTypes";
+import {repBD} from "../db/repository/repDB";
+import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
 
 
 const entKey = "blogs";

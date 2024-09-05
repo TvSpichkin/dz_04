@@ -1,7 +1,7 @@
 import {Response} from "express";
 import {PostInputModel, PostViewModel} from "../../../IOtypes/postsTypes";
 import {ReqBody} from "../../../IOtypes/reqTypes";
-import {postsRep} from "../postsRep";
+import {postsRep} from "../../../domain/postsServ";
 
 
 export async function createPostController(req: ReqBody<PostInputModel>, res: Response<PostViewModel>) {

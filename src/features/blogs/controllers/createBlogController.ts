@@ -1,7 +1,7 @@
 import {Response} from "express";
 import {BlogInputModel, BlogViewModel} from "../../../IOtypes/blogsTypes";
 import {ReqBody} from "../../../IOtypes/reqTypes";
-import {blogsRep} from "../blogsRep";
+import {blogsRep} from "../../../domain/blogsServ";
 
 
 export async function createBlogController(req: ReqBody<BlogInputModel>, res: Response<BlogViewModel>) {
