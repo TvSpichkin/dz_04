@@ -4,7 +4,7 @@ import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
 
 const entKey = "posts";
 
-export const postsRep = {
+export const postsServ = {
     async getAll(): Promise<PostViewModel[]> {
         const posts: PostDbType[] = await repBD.readAll(entKey) as PostDbType[];
 

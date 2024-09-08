@@ -1,7 +1,7 @@
 import {Response, NextFunction} from "express";
 import {ReqParam} from "../../../IOtypes/reqTypes";
 import {body} from "express-validator";
-import {postsRep} from "../../../domain/postsServ";
+import {postsServ} from "../../../domain/postsServ";
 import {blogsRep} from "../../../domain/blogsServ";
 import {adminMiddleware} from "../../../globalMiddlewares/adminMiddleware";
 import {inputCheckErrorsMiddleware} from "../../../globalMiddlewares/inputCheckErrorsMiddleware";
@@ -23,7 +23,7 @@ const titleValidator = body("title").isString().withMessage('Название н
         .trim().custom(checkExistBlog).withMessage('Сетевого журнала, с введённым идентификатором, не существует'); // Проверка правильности входящего идентификатора сетевого журнала
 
 export async function findPostValidator(req: ReqParam<{id: string}>, res: Response, next: NextFunction) {
-    const findPost = await postsRep.find(req.params.id); // Поиск записи
+    const findPost = await postsServ.find(req.params.id); // Поиск записи
     if(!findPost) res.sendStatus(404); // Если не найдено, то возрат 404 статуса
     else {
         res.locals.findPost = findPost; // Сохранение найденной записи
