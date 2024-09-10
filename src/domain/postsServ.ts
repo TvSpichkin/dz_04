@@ -1,11 +1,12 @@
 import {PostDbPutType, PostDbType} from "../db/types/postsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
+import {StringSortDir} from "../IOtypes/sortsType";
 
 const entKey = "posts";
 
 export const postsServ = {
-    async getAll(): Promise<PostViewModel[]> {
+    async getAll(sortBy: string, sortDirection: StringSortDir, pageNumber: number, pageSize: number): Promise<PostViewModel[]> {
         const posts: PostDbType[] = await repBD.readAll(entKey) as PostDbType[];
 
         return Promise.all(posts.map(this.maper));
