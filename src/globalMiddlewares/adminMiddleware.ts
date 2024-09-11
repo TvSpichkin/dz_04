@@ -20,4 +20,4 @@ export function adminMiddleware(req: Request, res: Response, next: NextFunction)
         if(auth.slice(6) !== codedAuth) unauth(); // Сравнение строк base64
         else next(); // Передача управления дальше
     }
-}
+} // Проверка правильности авторизации

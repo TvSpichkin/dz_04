@@ -3,4 +3,7 @@ export enum SortDirections {
     desc = "desc" // По убыванию
 }; // Направление сортировки 
 
-export type StringSortDir = keyof typeof SortDirections;
+export type TypeSortDir = keyof typeof SortDirections;
+export type TypeSNT = string | null;
+
+

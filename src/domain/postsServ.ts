@@ -1,7 +1,7 @@
 import {PostDbPutType, PostDbType} from "../db/types/postsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
-import {StringSortDir} from "../IOtypes/sortsType";
+import {StringSortDir} from "../IOtypes/queryTypes";
 
 const entKey = "posts";
 
