@@ -3,7 +3,8 @@ import {SET} from "../settings";
 
 
 function checkSNT(snt: string) {
-    if(typeof snt === "undefined") return;
+    snt = snt.trim();
+    if(!snt || snt.length > SET.MaxLen.BLOG.NAME) snt = null!;
 } // Проверка правильности входящего поискового термина для имени
 
 export function queryGetMiddleware(req: Request, res: Response, next: NextFunction) {
