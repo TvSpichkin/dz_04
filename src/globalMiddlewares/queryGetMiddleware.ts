@@ -15,6 +15,11 @@ function checkSD(sd: QueryInputModel["sortDirection"]) {
     return false;
 } // Проверка правильности входящего направления сортировки
 
+function checkPN(pn: QueryInputModel["pageNumber"]) {
+    if(typeof pn === "string" && Number.isInteger(+pn)) return true;
+    return false;
+} // Проверка правильности входящего номера страницы
+
 export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {
     var q = req.query;
     
@@ -25,6 +30,9 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
     
     if(!checkSB(q.sortBy)) q.sortBy = sortByFields.createdAt; // Задание исходного значения для поля сортировки
     if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения для направления сортировки
+    
+    if(checkPN(q.pageNumber)) q.pageNumber = +q.pageNumber;
+    else q.pageNumber = 1; // Задание исходного значения для номера страницы
     
     next(); // Передача управления дальше
 }
