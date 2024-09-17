@@ -1,8 +1,3 @@
-export enum SortDirections {
-    asc = "asc", // По возрастанию
-    desc = "desc" // По убыванию
-}; // Направление сортировки
-
 export enum sortByFields {
     id = "id", // Идентификатор
     name = "name", // Имя; максимальная длина: 15
@@ -16,5 +11,19 @@ export enum sortByFields {
     blogId = "blogId", // Идентификатор существующего сетевого журнала
 }; // Возможные поля сортировки
 
+export enum SortDirections {
+    asc = "asc", // По возрастанию
+    desc = "desc" // По убыванию
+}; // Направление сортировки
+
+export type TypeSortBy = keyof typeof sortByFields;
 export type TypeSortDir = keyof typeof SortDirections;
 export type TypeSNT = string | null;
+
+export type QueryInputModel = {
+    searchNameTerm: string | undefined, // Входящий поисковый термин для имени; максимальная длина: 15
+    sortBy: TypeSortBy, // Входящее поле сортировки
+    sortDirection: TypeSortDir, // Входящее направление сортировки
+    pageNumber: number, // Количество частей, которые должны быть возвращены
+    pageSize: number, // Размер порции, который должен быть возвращен
+}; // Входная модель для запроса с вопросом

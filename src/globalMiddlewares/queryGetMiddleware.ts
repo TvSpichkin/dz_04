@@ -1,30 +1,30 @@
 import {Request, Response, NextFunction} from "express";
 import {SET} from "../settings";
 import {EntDbType} from "../db/types/typesRepDB";
-import {sortByFields, SortDirections} from "../IOtypes/queryTypes";
+import {QueryInputModel, sortByFields, SortDirections} from "../IOtypes/queryTypes";
+import { ReqQuery } from "../IOtypes/reqTypes";
 
 
-function checkSNT(snt: string) {
-    snt = snt.trim();
-    if(!snt || snt.length > SET.MaxLen.BLOG.NAME) snt = undefined!;
-} // Проверка правильности входящего поискового термина для имени
-
-function checkSB(sb: string) {
-    if(!sortByFields.hasOwnProperty(sb)) sb = sortByFields.createdAt; // Задание исходного значения для поля сортировки
+function checkSB(sb: QueryInputModel["sortBy"]) {
+    if(typeof sb === "string" && sortByFields.hasOwnProperty(sb)) return true;
+    return false;
 } // Проверка правильности входящего поля сортировки
 
-function checkSD(sd: string) {
-    if(!SortDirections.hasOwnProperty(sd)) sd = SortDirections.desc; // Задание исходного значения для поля сортировки
+function checkSD(sd: QueryInputModel["sortDirection"]) {
+    if(typeof sd === "string" && SortDirections.hasOwnProperty(sd)) return true;
+    return false;
 } // Проверка правильности входящего направления сортировки
 
-export function queryGetMiddleware(req: Request, res: Response, next: NextFunction) {
-    if(typeof req.query.searchNameTerm === "string") checkSNT(req.query.searchNameTerm); // Проверка правильности входящего поискового термина для имени
+export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {
+    var q = req.query;
     
-    if(typeof req.query.sortBy === "string") checkSB(req.query.sortBy); // Проверка правильности входящего поля сортировки
-    else req.query.sortBy = sortByFields.createdAt; // Задание исходного значения для поля сортировки
+    if(typeof q.searchNameTerm === "string") {
+        let snt = q.searchNameTerm.trim();
+        if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
+    } // Проверка правильности входящего поискового термина для имени
     
-    if(typeof req.query.sortDirection === "string") checkSD(req.query.sortDirection); // Проверка правильности входящего направления сортировки
-    else req.query.sortDirection = SortDirections.desc; // Задание исходного значения для направления сортировки
+    if(!checkSB(q.sortBy)) q.sortBy = sortByFields.createdAt; // Задание исходного значения для поля сортировки
+    if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения для направления сортировки
     
     next(); // Передача управления дальше
 }
