@@ -17,7 +17,7 @@ function checkSD(sd: QueryInputModel["sortDirection"]) {
 } // Проверка правильности входящего направления сортировки
 
 function checkPN(pn: QueryInputModel["pageNumber"]) {
-    return chStr(pn) && Number.isInteger(+pn);
+    return chStr(pn) && Number.isInteger(+pn) && pn > 0;
 } // Проверка правильности входящего номера страницы
 
 function checkPS(ps: QueryInputModel["pageSize"]) {
