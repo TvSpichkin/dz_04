@@ -1,13 +1,13 @@
 import {BlogDbType, BlogDbPutType} from "../db/types/blogsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
-import {TypeSortDir} from "../IOtypes/queryTypes";
+import {TypeSNT, TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
 
 
 const entKey = "blogs";
 
 export const blogsServ = {
-    async getAll(searchNameTerm: string, sortBy: string, sortDirection: TypeSortDir, pageNumber: number, pageSize: number): Promise<BlogViewModel[]> {
+    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, pageNumber: number, pageSize: number): Promise<BlogViewModel[]> {
         const blogs: BlogDbType[] = await repBD.readAll(entKey) as BlogDbType[];
 
         return Promise.all(blogs.map(this.maper));

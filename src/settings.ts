@@ -22,6 +22,9 @@ export const SET = {
             TITLE: 30,
             ShortDescription: 100,
             CONTENT: 1000
+        },
+        QUERY: {
+            PageSize: 100
         }
     } // Максимальные длины для строк
 }; // Определение частоиспользуемых констант

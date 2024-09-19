@@ -1,24 +1,28 @@
-import {Request, Response, NextFunction} from "express";
+import {Response, NextFunction} from "express";
 import {SET} from "../settings";
-import {EntDbType} from "../db/types/typesRepDB";
 import {QueryInputModel, sortByFields, SortDirections} from "../IOtypes/queryTypes";
-import { ReqQuery } from "../IOtypes/reqTypes";
+import {ReqQuery} from "../IOtypes/reqTypes";
 
+
+function chStr(str: any) {
+    return typeof str === "string";
+} // Проверка на строку
 
 function checkSB(sb: QueryInputModel["sortBy"]) {
-    if(typeof sb === "string" && sortByFields.hasOwnProperty(sb)) return true;
-    return false;
+    return chStr(sb) && sortByFields.hasOwnProperty(sb);
 } // Проверка правильности входящего поля сортировки
 
 function checkSD(sd: QueryInputModel["sortDirection"]) {
-    if(typeof sd === "string" && SortDirections.hasOwnProperty(sd)) return true;
-    return false;
+    return chStr(sd) && SortDirections.hasOwnProperty(sd);
 } // Проверка правильности входящего направления сортировки
 
 function checkPN(pn: QueryInputModel["pageNumber"]) {
-    if(typeof pn === "string" && Number.isInteger(+pn)) return true;
-    return false;
+    return chStr(pn) && Number.isInteger(+pn);
 } // Проверка правильности входящего номера страницы
+
+function checkPS(ps: QueryInputModel["pageSize"]) {
+    return checkPN(ps) && +ps < SET.MaxLen.QUERY.PageSize;
+} // Проверка правильности входящего размера страницы
 
 export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {
     var q = req.query;
@@ -28,11 +32,14 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
         if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
     } // Проверка правильности входящего поискового термина для имени
     
-    if(!checkSB(q.sortBy)) q.sortBy = sortByFields.createdAt; // Задание исходного значения для поля сортировки
-    if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения для направления сортировки
+    if(!checkSB(q.sortBy)) q.sortBy = sortByFields.createdAt; // Задание исходного значения поля сортировки
+    if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения направления сортировки
     
     if(checkPN(q.pageNumber)) q.pageNumber = +q.pageNumber;
-    else q.pageNumber = 1; // Задание исходного значения для номера страницы
+    else q.pageNumber = 1; // Задание исходного значения номера страницы
+    
+    if(checkPS(q.pageSize)) q.pageSize = +q.pageSize;
+    else q.pageSize = 10; // Задание исходного значения размера страницы
     
     next(); // Передача управления дальше
 }

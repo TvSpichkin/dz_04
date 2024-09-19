@@ -18,10 +18,10 @@ export enum SortDirections {
 
 export type TypeSortBy = keyof typeof sortByFields;
 export type TypeSortDir = keyof typeof SortDirections;
-export type TypeSNT = string | null;
+export type TypeSNT = string | undefined;
 
 export type QueryInputModel = {
-    searchNameTerm: string | undefined, // Входящий поисковый термин для имени; максимальная длина: 15
+    searchNameTerm: TypeSNT, // Входящий поисковый термин для имени; максимальная длина: 15
     sortBy: TypeSortBy, // Входящее поле сортировки
     sortDirection: TypeSortDir, // Входящее направление сортировки
     pageNumber: number, // Количество частей, которые должны быть возвращены
