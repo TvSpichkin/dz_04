@@ -1,14 +1,9 @@
-export enum sortByFields {
-    id = "id", // Идентификатор
-    name = "name", // Имя; максимальная длина: 15
-    description = "description", // Описание; максимальная длина: 500
-    websiteUrl = "websiteUrl", // ЕУМР сетевого узла; максимальная длина: 100, шаблон: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
-    createdAt = "createdAt", // Дата создания
-    isMembership = "isMembership", // Подписка на членство в сетевом журнале
-    title = "title", // Название; максимальная длина: 30
-    shortDescription = "shortDescription", // Краткое описание; максимальная длина: 100
-    content = "content", // Содержание; максимальная длина: 1000
-    blogId = "blogId", // Идентификатор существующего сетевого журнала
+import {blogFields} from "../db/types/blogsDbTypes";
+import {postFields} from "../db/types/postsDbTypes";
+
+export const sortByFields = {
+    ...blogFields, // Возможные поля сортировки для сетевого журнала
+    ...postFields // Возможные поля сортировки для записи
 }; // Возможные поля сортировки
 
 export enum SortDirections {

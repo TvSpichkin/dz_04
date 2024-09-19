@@ -13,3 +13,12 @@ export type PostDbPutType = {
     content: string, // Содержание; максимальная длина: 1000
     blogId: number // Идентификатор существующего сетевого журнала
 }; // Тип изменения записи в БД
+
+export enum postFields {
+    id = "id", // Идентификатор
+    title = "title", // Название; максимальная длина: 30
+    shortDescription = "shortDescription", // Краткое описание; максимальная длина: 100
+    content = "content", // Содержание; максимальная длина: 1000
+    blogId = "blogId", // Идентификатор существующего сетевого журнала
+    createdAt = "createdAt" // Дата создания
+}; // Возможные поля записи

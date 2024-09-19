@@ -21,7 +21,7 @@ function checkPN(pn: QueryInputModel["pageNumber"]) {
 } // Проверка правильности входящего номера страницы
 
 function checkPS(ps: QueryInputModel["pageSize"]) {
-    return checkPN(ps) && +ps < SET.MaxLen.QUERY.PageSize;
+    return checkPN(ps) && ps < SET.MaxLen.QUERY.PageSize;
 } // Проверка правильности входящего размера страницы
 
 export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {

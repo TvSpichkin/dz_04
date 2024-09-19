@@ -1,4 +1,4 @@
-import {BlogDbType, BlogDbPutType} from "../db/types/blogsDbTypes";
+import {BlogDbType, BlogDbPutType, blogFields} from "../db/types/blogsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
 import {TypeSNT, TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
@@ -7,8 +7,10 @@ import {TypeSNT, TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
 const entKey = "blogs";
 
 export const blogsServ = {
-    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, pageNumber: number, pageSize: number): Promise<BlogViewModel[]> {
-        const blogs: BlogDbType[] = await repBD.readAll(entKey) as BlogDbType[];
+    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<BlogViewModel[]> {
+        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1);
+        
+        const [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
 
         return Promise.all(blogs.map(this.maper));
     }, // Извлечение всех сетевых журналов

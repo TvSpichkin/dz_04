@@ -1,10 +1,18 @@
 import {db} from "../db";
 import {DBType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType} from "../types/typesRepDB";
+import {TypeSNT, TypeSortBy, TypeSortDir} from "../../IOtypes/queryTypes";
 
+
+function dirSort(d: TypeSortDir): 1 | -1 {
+    return 1;
+}
 
 export const repBD = {
-    async readAll(entKey: KeysDB): Promise<EntDbType[]> {
-        return db.collection<EntDbType>(entKey).find({}).toArray();
+    async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeSortBy, sd: TypeSortDir, snt?: TypeSNT, fst?: TypeSortBy): Promise<[number, EntDbType[]]> {
+        const filter = snt ? {[fst!]: snt} : {};
+        
+        return Promise.all([db.collection<EntDbType>(entKey).count(filter),
+            db.collection<EntDbType>(entKey).find(filter).sort({[sb]: dirSort(sd)}).skip(es).limit(ps).toArray()]);
     }, // Извлечение всех сущностей
     async read(entKey: KeysDB, id: number): Promise<DbTypeFind> {
         return db.collection<EntDbType>(entKey).findOne({id: id});
