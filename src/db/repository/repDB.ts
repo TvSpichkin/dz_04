@@ -9,10 +9,10 @@ function dirSort(d: TypeSortDir): 1 | -1 {
 
 export const repBD = {
     async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeSortBy, sd: TypeSortDir, snt?: TypeSNT, fst?: TypeSortBy): Promise<[number, EntDbType[]]> {
-        const filter = snt ? {[fst!]: snt} : {};
+        const filter = snt ? {[fst!]: snt} : {}; // Создание поискового фильтра
         
-        return Promise.all([db.collection<EntDbType>(entKey).count(filter),
-            db.collection<EntDbType>(entKey).find(filter).sort({[sb]: dirSort(sd)}).skip(es).limit(ps).toArray()]);
+        return Promise.all([db.collection<EntDbType>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
+            db.collection<EntDbType>(entKey).find(filter).sort({[sb]: dirSort(sd)}).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
     }, // Извлечение всех сущностей
     async read(entKey: KeysDB, id: number): Promise<DbTypeFind> {
         return db.collection<EntDbType>(entKey).findOne({id: id});
