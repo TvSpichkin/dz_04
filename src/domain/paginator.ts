@@ -12,12 +12,12 @@ export type Paginator<T> = {
     items: T[], // Нужная порция сущностей
 }; // Выходная модель нумератора страниц
 
-export function paginator(p: number, ps: number, tc: number, items: EntViewModel[]): Paginator<EntViewModel> {
+export function paginator(p: number, ps: number, tc: number, i: EntViewModel[]): Paginator<EntViewModel> {
     return {
-        pagesCount: 1, // Количество страниц
+        pagesCount: Math.ceil(tc/ps), // Количество страниц
         page: p, // Номер текущей страницы
         pageSize: ps, // Размер страницы - количество элементов на одной странице
         totalCount: tc, // Количество элементов
-        items: items, // Нужная порция сущностей
+        items: i, // Нужная порция сущностей
     };
 } // Нумератор страниц

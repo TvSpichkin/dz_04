@@ -2,17 +2,17 @@ import {BlogDbType, BlogDbPutType, blogFields} from "../db/types/blogsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
 import {TypeSNT, TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
+import {Paginator, paginator} from "./paginator";
 
 
 const entKey = "blogs";
 
 export const blogsServ = {
-    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<BlogViewModel[]> {
-        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1);
-        
-        const [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
+    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
+        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1),
+        [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
 
-        return Promise.all(blogs.map(this.maper));
+        return paginator(page, pageSize, totalCount, await Promise.all(blogs.map(this.maper))) as Paginator<BlogViewModel>;
     }, // Извлечение всех сетевых журналов
     async find(id: string): Promise<BlogDbType | null> {
         return repBD.read(entKey, +id) as Promise<BlogDbType | null>;
