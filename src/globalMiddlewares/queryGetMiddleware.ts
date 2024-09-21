@@ -25,10 +25,10 @@ function checkPS(ps: QueryInputModel["pageSize"]) {
 } // Проверка правильности входящего размера страницы
 
 export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {
-    var q = req.query;
+    const q = req.query;
     
     if(typeof q.searchNameTerm === "string") {
-        let snt = q.searchNameTerm.trim();
+        const snt = q.searchNameTerm.trim();
         if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
     } // Проверка правильности входящего поискового термина для имени
     

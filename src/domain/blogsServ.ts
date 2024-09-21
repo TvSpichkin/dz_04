@@ -9,10 +9,10 @@ const entKey = "blogs";
 
 export const blogsServ = {
     async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
-        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1),
+        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1), // Поле поискового термина и количество пропущенных элементов
         [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
 
-        return paginator(page, pageSize, totalCount, await Promise.all(blogs.map(this.maper))) as Paginator<BlogViewModel>;
+        return paginator(page, pageSize, totalCount, await Promise.all(blogs.map(this.maper))) as Paginator<BlogViewModel>; // Нумерация страниц
     }, // Извлечение всех сетевых журналов
     async find(id: string): Promise<BlogDbType | null> {
         return repBD.read(entKey, +id) as Promise<BlogDbType | null>;

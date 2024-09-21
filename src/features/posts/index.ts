@@ -1,4 +1,5 @@
 import express from "express";
+import {queryGetMiddleware} from "../../globalMiddlewares/queryGetMiddleware";
 import {getPostsController} from "./controllers/getPostsController";
 import {findPostValidator, postValidators} from "./middlewares/postValidators";
 import {findPostController} from "./controllers/findPostController";
@@ -10,7 +11,7 @@ import {putPostController} from "./controllers/putPostController";
 
 export const postsRout = express.Router(); // Объявление маршрутизатора записей
 
-postsRout.get("/", getPostsController); // Возврат всех записей
+postsRout.get("/", queryGetMiddleware, getPostsController); // Возврат всех записей
 postsRout.get("/:id", findPostValidator, findPostController); // Возврат записи по идентификатору
 postsRout.post("/", ...postValidators, createPostController); // Создание записи
 postsRout.delete("/:id", findPostValidator, adminMiddleware,  delPostController); // Удаление записи

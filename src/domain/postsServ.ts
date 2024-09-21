@@ -1,15 +1,17 @@
 import {PostDbPutType, PostDbType} from "../db/types/postsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
-import {StringSortDir} from "../IOtypes/queryTypes";
+import {TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
+import {Paginator, paginator} from "./paginator";
 
 const entKey = "posts";
 
 export const postsServ = {
-    async getAll(sortBy: string, sortDirection: StringSortDir, pageNumber: number, pageSize: number): Promise<PostViewModel[]> {
-        const posts: PostDbType[] = await repBD.readAll(entKey) as PostDbType[];
+    async getAll(sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<PostViewModel>> {
+        const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
+        [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection) as [number, PostDbType[]];
 
-        return Promise.all(posts.map(this.maper));
+        return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
     async find(id: string): Promise<PostDbType | null> {
         return repBD.read(entKey, +id) as Promise<PostDbType | null>;

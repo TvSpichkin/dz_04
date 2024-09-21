@@ -1,4 +1,5 @@
 import express from "express";
+import {queryGetMiddleware} from "../../globalMiddlewares/queryGetMiddleware";
 import {getBlogsController} from "./controllers/getBlogsController";
 import {findBlogValidator, blogValidators} from "./middlewares/blogValidators";
 import {findBlogController} from "./controllers/findBlogController";
@@ -10,7 +11,7 @@ import {putBlogController} from "./controllers/putBlogController";
 
 export const blogsRout = express.Router(); // Объявление маршрутизатора сетевых журналов
 
-blogsRout.get("/", getBlogsController); // Возврат всех сетевых журналов
+blogsRout.get("/", queryGetMiddleware, getBlogsController); // Возврат всех сетевых журналов
 blogsRout.get("/:id", findBlogValidator, findBlogController); // Возврат сетевого журнала по идентификатору
 blogsRout.post("/", ...blogValidators, createBlogController); // Создание сетевого журнала
 blogsRout.delete("/:id", findBlogValidator, adminMiddleware,  delBlogController); // Удаление сетевого журнала
