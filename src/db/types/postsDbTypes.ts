@@ -22,3 +22,5 @@ export enum postFields {
     blogId = "blogId", // Идентификатор существующего сетевого журнала
     createdAt = "createdAt" // Дата создания
 }; // Возможные поля записи
+
+export type TypePostFields = keyof typeof postFields;

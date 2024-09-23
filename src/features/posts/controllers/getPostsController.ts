@@ -3,11 +3,13 @@ import {ReqQuery} from "../../../IOtypes/reqTypes";
 import {QueryInputModel} from "../../../IOtypes/queryTypes";
 import {Paginator} from "../../../domain/paginator";
 import {PostViewModel} from "../../../IOtypes/postsTypes";
+import {postFields, TypePostFields} from "../../../db/types/postsDbTypes";
 import {postsServ} from "../../../domain/postsServ";
 
 
 export async function getPostsController(req: ReqQuery<QueryInputModel>, res: Response<Paginator<PostViewModel>>) {
-    const q = req.query;
+    const q = req.query,
+    sortBy = (postFields.hasOwnProperty(q.sortBy) ? q.sortBy : postFields.createdAt) as TypePostFields; // Задание исходного значения поля сортировки
     
-    res.json(await postsServ.getAll(q.sortBy, q.sortDirection, q.pageNumber, q.pageSize)); // Получение записей
+    res.json(await postsServ.getAll(sortBy, q.sortDirection, q.pageNumber, q.pageSize)); // Получение записей
 } // Контролёр, отвечающий за выдачу записей

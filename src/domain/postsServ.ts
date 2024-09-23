@@ -1,13 +1,13 @@
-import {PostDbPutType, PostDbType} from "../db/types/postsDbTypes";
+import {PostDbType, PostDbPutType, TypePostFields} from "../db/types/postsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
-import {TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
+import {TypeSortDir} from "../IOtypes/queryTypes";
 import {Paginator, paginator} from "./paginator";
 
 const entKey = "posts";
 
 export const postsServ = {
-    async getAll(sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<PostViewModel>> {
+    async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
         [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection) as [number, PostDbType[]];
 

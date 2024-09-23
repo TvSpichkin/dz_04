@@ -21,3 +21,5 @@ export enum blogFields {
     createdAt = "createdAt", // Дата создания
     isMembership = "isMembership" // Подписка на членство в сетевом журнале
 }; // Возможные поля сетевого журнала
+
+export type TypeBlogFields = keyof typeof blogFields;

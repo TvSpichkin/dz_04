@@ -1,14 +1,14 @@
-import {BlogDbType, BlogDbPutType, blogFields} from "../db/types/blogsDbTypes";
+import {BlogDbType, BlogDbPutType, blogFields, TypeBlogFields} from "../db/types/blogsDbTypes";
 import {repBD} from "../db/repository/repDB";
 import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
-import {TypeSNT, TypeSortBy, TypeSortDir} from "../IOtypes/queryTypes";
+import {TypeSNT, TypeSortDir} from "../IOtypes/queryTypes";
 import {Paginator, paginator} from "./paginator";
 
 
 const entKey = "blogs";
 
 export const blogsServ = {
-    async getAll(searchNameTerm: TypeSNT, sortBy: TypeSortBy, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
+    async getAll(searchNameTerm: TypeSNT, sortBy: TypeBlogFields, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
         const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1), // Поле поискового термина и количество пропущенных элементов
         [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
 
