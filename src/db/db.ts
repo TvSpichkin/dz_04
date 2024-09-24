@@ -16,3 +16,9 @@ export async function runDB() {
         await client.close(); // Завершение подключения к БД
     }
 } // Запуск базы данных
+
+export async function stopDB() {
+    await client.close(); // Завершение подключения к БД
+    console.log("Успешно отключено от монгоБД");
+    FLAG.ConnectMongo = false; // Переключение флага подключения к БД
+} // Остановка базы данных
