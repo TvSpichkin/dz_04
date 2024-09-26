@@ -14,9 +14,10 @@ export type DBType = {
     posts: PostDbType[] // Массив записей
 }; // Типизация базы данных (что мы будем в ней хранить)
 export type ProtoFilterType = {
-    key: TypeEntFields, // Массив сетевых журналов
-    value: boolean | number | string, // Массив записей
-}; // Типизация базы данных (что мы будем в ней хранить)
+    key: TypeEntFields, // Поле сущности в БД
+    value: boolean | number | string, // Значение этого поля
+    way: number // Способ задания условия для фильтра
+}; // Типизация исходных данных для генерации фильтра
 
 export type KeysDB = keyof DBType; // Ключи БД
 export type ValsDB = ValueOf<DBType>; // Значения БД
