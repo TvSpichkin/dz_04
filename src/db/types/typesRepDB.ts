@@ -1,11 +1,21 @@
 import {ValueOf} from "../../methodsForTS";
-import {BlogDbPutType, BlogDbType} from "./blogsDbTypes";
-import {PostDbPutType, PostDbType} from "./postsDbTypes";
+import {BlogDbPutType, BlogDbType, blogFields} from "./blogsDbTypes";
+import {PostDbPutType, PostDbType, postFields} from "./postsDbTypes";
 
+
+export const EntFields = {
+    ...blogFields, // Возможные поля для сетевого журнала
+    ...postFields // Возможные поля для записи
+}; // Возможные поля сущности в БД
+export type TypeEntFields = keyof typeof EntFields;
 
 export type DBType = {
     blogs: BlogDbType[], // Массив сетевых журналов
     posts: PostDbType[] // Массив записей
+}; // Типизация базы данных (что мы будем в ней хранить)
+export type ProtoFilterType = {
+    key: TypeEntFields, // Массив сетевых журналов
+    value: boolean | number | string, // Массив записей
 }; // Типизация базы данных (что мы будем в ней хранить)
 
 export type KeysDB = keyof DBType; // Ключи БД

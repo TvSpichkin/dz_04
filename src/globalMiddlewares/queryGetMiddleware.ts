@@ -1,6 +1,7 @@
 import {Response, NextFunction} from "express";
 import {SET} from "../settings";
-import {QueryInputModel, sortByFields, SortDirections} from "../IOtypes/queryTypes";
+import {QueryInputModel, SortDirections} from "../IOtypes/queryTypes";
+import {EntFields} from "../db/types/typesRepDB";
 import {ReqQuery} from "../IOtypes/reqTypes";
 
 
@@ -9,7 +10,7 @@ function chStr(str: any) {
 } // Проверка на строку
 
 function checkSB(sb: QueryInputModel["sortBy"]) {
-    return chStr(sb) && sortByFields.hasOwnProperty(sb);
+    return chStr(sb) && EntFields.hasOwnProperty(sb);
 } // Проверка правильности входящего поля сортировки
 
 function checkSD(sd: QueryInputModel["sortDirection"]) {
@@ -32,7 +33,7 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
         if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
     } // Проверка правильности входящего поискового термина для имени
     
-    if(!checkSB(q.sortBy)) q.sortBy = sortByFields.createdAt; // Задание исходного значения поля сортировки
+    if(!checkSB(q.sortBy)) q.sortBy = EntFields.createdAt; // Задание исходного значения поля сортировки
     if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения направления сортировки
     
     if(checkPN(q.pageNumber)) q.pageNumber = +q.pageNumber;
