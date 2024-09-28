@@ -1,5 +1,5 @@
 import {db} from "../db";
-import {DBType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields} from "../types/typesRepDB";
+import {DBType, ProtoFilterType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields} from "../types/typesRepDB";
 import {TypeSNT, TypeSortDir} from "../../IOtypes/queryTypes";
 
 
