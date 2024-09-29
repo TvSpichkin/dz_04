@@ -1,4 +1,5 @@
 import {PostDbType, PostDbPutType, TypePostFields} from "../db/types/postsDbTypes";
+import {ProtoFilterType} from "../db/types/typesRepDB";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
 import {TypeSortDir} from "../IOtypes/queryTypes";

@@ -1,4 +1,5 @@
 import {BlogDbType, BlogDbPutType, blogFields, TypeBlogFields} from "../db/types/blogsDbTypes";
+import {ProtoFilterType} from "../db/types/typesRepDB";
 import {repBD} from "../db/repository/repDB";
 import {BlogInputModel, BlogViewModel} from "../IOtypes/blogsTypes";
 import {TypeSNT, TypeSortDir} from "../IOtypes/queryTypes";
