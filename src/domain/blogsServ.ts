@@ -10,8 +10,10 @@ const entKey = "blogs";
 
 export const blogsServ = {
     async getAll(searchNameTerm: TypeSNT, sortBy: TypeBlogFields, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<BlogViewModel>> {
-        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1), // Поле поискового термина и количество пропущенных элементов
-        [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]];
+        const fieldSearchTerm = blogFields.name, elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
+        searchNameFilt: ProtoFilterType[] = searchNameTerm ? // Данные поискового термина для генерации фильтра
+        [{key: blogFields.name, value: searchNameTerm, way: 1}] : [],
+        [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameTerm, fieldSearchTerm) as [number, BlogDbType[]]; // Cетевые журналы и их количество
 
         return paginator(page, pageSize, totalCount, await Promise.all(blogs.map(this.maper))) as Paginator<BlogViewModel>; // Нумерация страниц
     }, // Извлечение всех сетевых журналов
