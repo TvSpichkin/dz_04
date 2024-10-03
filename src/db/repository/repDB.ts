@@ -4,8 +4,8 @@ import {TypeSNT, TypeSortDir} from "../../IOtypes/queryTypes";
 
 
 function dirSort(d: TypeSortDir): 1 | -1 {
-    return 1;
-}
+    return d[3] ? -1 : 1;
+} // Задание направления сортировки для БД
 
 export const repBD = {
     async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snt?: TypeSNT, fst?: TypeEntFields): Promise<[number, EntDbType[]]> {
