@@ -1,6 +1,7 @@
 import {db} from "../db";
 import {DBType, ProtoFilterType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields} from "../types/typesRepDB";
 import {TypeSNT, TypeSortDir} from "../../IOtypes/queryTypes";
+import { createFilter } from "./createFilter";
 
 
 function dirSort(d: TypeSortDir): 1 | -1 {
@@ -8,8 +9,8 @@ function dirSort(d: TypeSortDir): 1 | -1 {
 } // Задание направления сортировки для БД
 
 export const repBD = {
-    async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snt?: TypeSNT, fst?: TypeEntFields): Promise<[number, EntDbType[]]> {
-        const filter = snt ? {[fst!]: snt} : {}; // Создание поискового фильтра
+    async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snf: ProtoFilterType[]): Promise<[number, EntDbType[]]> {
+        const filter = createFilter(snf); // Создание поискового фильтра
         
         return Promise.all([db.collection<EntDbType>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
             db.collection<EntDbType>(entKey).find(filter).sort({[sb]: dirSort(sd)}).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
