@@ -23,7 +23,7 @@ export const repBD = {
         
         entity.id = endId.length ? endId[0].id + 1 : 1;
         await db.collection<EntDbType>(entKey).insertOne(entity);
-
+        
         return entity.id;
     }, // Запись сущности в БД
     async remove(entKey: KeysDB, keyId: keyIds, id: number) {

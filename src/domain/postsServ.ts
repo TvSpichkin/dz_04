@@ -11,7 +11,7 @@ export const postsServ = {
     async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<PostViewModel>> {
         const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
         [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, []) as [number, PostDbType[]];
-
+        
         return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
     async find(id: string): Promise<PostDbType | null> {
