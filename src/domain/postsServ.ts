@@ -1,4 +1,4 @@
-import {PostDbType, PostDbPutType, TypePostFields} from "../db/types/postsDbTypes";
+import {PostDbType, PostDbPutType, postFields, TypePostFields} from "../db/types/postsDbTypes";
 import {ProtoFilterType} from "../db/types/typesRepDB";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
@@ -8,10 +8,12 @@ import {Paginator, paginator} from "./paginator";
 const entKey = "posts";
 
 export const postsServ = {
-    async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number): Promise<Paginator<PostViewModel>> {
+    async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number, blogId?: number): Promise<Paginator<PostViewModel>> {
         const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
-        [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, []) as [number, PostDbType[]];
-        
+        blogIdFilt: ProtoFilterType[] = blogId ? // Идентификатор сетевого журнала для генерации фильтра
+        [{key: postFields.blogId, value: blogId, way: 0}] : [],
+        [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, blogIdFilt) as [number, PostDbType[]];
+
         return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
     async find(id: string): Promise<PostDbType | null> {
