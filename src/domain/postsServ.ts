@@ -8,7 +8,7 @@ import {Paginator, paginator} from "./paginator";
 const entKey = "posts";
 
 export const postsServ = {
-    async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number, blogId?: number): Promise<Paginator<PostViewModel>> {
+    async getAll(sortBy: TypePostFields, sortDirection: TypeSortDir, page: number, pageSize: number, blogId: number): Promise<Paginator<PostViewModel>> {
         const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
         blogIdFilt: ProtoFilterType[] = blogId ? // Идентификатор сетевого журнала для генерации фильтра
         [{key: postFields.blogId, value: blogId, way: 0}] : [],
