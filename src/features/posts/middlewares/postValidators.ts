@@ -27,12 +27,15 @@ const titleValidator = body("title").isString().withMessage("Название н
         .trim().custom(checkExistBlog).withMessage("Сетевого журнала, с введённым идентификатором, не существует"); // Проверка правильности входящего идентификатора сетевого журнала
 
 export async function findPostValidator(req: ReqParam<{id: string}>, res: Response, next: NextFunction) {
-    const findPost = await postsServ.find(req.params.id); // Поиск записи
-    if(!findPost) res.sendStatus(404); // Если не найдено, то возрат 404 статуса
-    else {
-        res.locals.findPost = findPost; // Сохранение найденной записи
-        next(); // Передача управления дальше
+    if(+req.params.id > 0 && Number.isInteger(+req.params.id)) {
+        const findPost = await postsServ.find(req.params.id); // Поиск записи
+        if(findPost) {
+            res.locals.findPost = findPost; // Сохранение найденной записи
+            next(); // Передача управления дальше
+        }
+        else res.sendStatus(404); // Если не найдено, то возрат 404 статуса
     }
+    else res.sendStatus(404); // Если идентификатор не натуральный, то возрат 404 статуса
 } // Проверка существования искомой записи
 
 export const postValidators = [
