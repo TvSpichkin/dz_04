@@ -6,6 +6,7 @@ import {blogsServ} from "../../../domain/blogsServ";
 import {adminMiddleware} from "../../../globalMiddlewares/adminMiddleware";
 import {inputCheckErrorsMiddleware} from "../../../globalMiddlewares/inputCheckErrorsMiddleware";
 import {SET} from "../../../settings";
+import {addBlogId} from "./addBlogId";
 
 
 async function checkExistBlog(blogId: string) {
@@ -48,3 +49,14 @@ export const postValidators = [
 
     inputCheckErrorsMiddleware
 ]; // Набор проверок для создания и изменения записей
+
+export const postValWithoutBID = [
+    adminMiddleware,
+
+    titleValidator,
+    shortDescriptionValidator,
+    contentValidator,
+    addBlogId,
+
+    inputCheckErrorsMiddleware
+]; // Набор проверок для создания и изменения записей без идентификатора текущего сетевого журнала
