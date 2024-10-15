@@ -3,7 +3,7 @@ import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
 import {auth, bigStr, corrPost1, corrPost2, corrPost3, corrBlog1, corrBlog2} from "./helpers/datasets";
 import {PostViewModel} from "../src/IOtypes/postsTypes";
-import {runDB} from "../src/db/db";
+import {runDB, stopDB} from "../src/db/db";
 
 
 describe("/posts", () => {
@@ -14,6 +14,9 @@ describe("/posts", () => {
         await setDB(); // Очистка базы данных перед началом тестирования
         await req.post(SET.PATH.BLOGS).set(auth).send(corrBlog1).expect(201); // Добавление в БД 1 сетевого журнала
         await req.post(SET.PATH.BLOGS).set(auth).send(corrBlog2).expect(201); // Добавление в БД 2 сетевого журнала
+    });
+    afterAll(async () => {
+        await stopDB(); // Отключение от БД
     });
     
     it("должен вернуть 200 и пустой массив", async () => {
