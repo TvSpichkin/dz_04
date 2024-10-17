@@ -1,4 +1,4 @@
-import {req, getBlog} from "./helpers/test-helpers";
+import {req, getBlog, pageData} from "./helpers/test-helpers";
 import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
 import {auth, bigStr, corrBlog1, corrBlog2, corrBlog3} from "./helpers/datasets";
@@ -18,7 +18,7 @@ describe("/blogs", () => {
     });
     
     it("должен вернуть 200 и пустой массив", async () => {
-        await getBlog.expect(200, []);
+        await getBlog.expect(200, pageData());
     });
 
 
