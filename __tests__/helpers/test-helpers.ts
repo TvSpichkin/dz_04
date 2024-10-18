@@ -14,6 +14,6 @@ export function pageData(i: EntViewModel[] = [], p: number = 1, ps: number = 10,
         page: p, // Номер текущей страницы
         pageSize: ps, // Размер страницы - количество элементов на одной странице
         totalCount: tc, // Количество элементов
-        items: i, // Нужная порция сущностей
+        items: i // Нужная порция сущностей
     };
 } // Данные страницы

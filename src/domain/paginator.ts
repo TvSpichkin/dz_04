@@ -9,7 +9,7 @@ export type Paginator<T> = {
     page: number, // Номер текущей страницы
     pageSize: number, // Размер страницы - количество элементов на одной странице
     totalCount: number, // Количество элементов
-    items: T[], // Нужная порция сущностей
+    items: T[] // Нужная порция сущностей
 }; // Выходная модель нумератора страниц
 
 export function paginator(p: number, ps: number, tc: number, i: EntViewModel[]): Paginator<EntViewModel> {
@@ -18,6 +18,6 @@ export function paginator(p: number, ps: number, tc: number, i: EntViewModel[]):
         page: p, // Номер текущей страницы
         pageSize: ps, // Размер страницы - количество элементов на одной странице
         totalCount: tc, // Количество элементов
-        items: i, // Нужная порция сущностей
+        items: i // Нужная порция сущностей
     };
 } // Нумератор страниц
