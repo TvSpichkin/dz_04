@@ -2,6 +2,9 @@ import {fromUTF8ToBase64} from "../../src/globalMiddlewares/adminMiddleware";
 import {SET} from "../../src/settings";
 import {BlogInputModel} from "../../src/IOtypes/blogsTypes";
 import {PostInputModel} from "../../src/IOtypes/postsTypes";
+import {DBType} from "../../src/db/types/typesRepDB";
+import {BlogDbType} from "../../src/db/types/blogsDbTypes";
+import {PostDbType} from "../../src/db/types/postsDbTypes";
 
 
 export const auth = {"Authorization": "Basic " + fromUTF8ToBase64(SET.ADMIN)}; // Получение base64 строки авторизации
@@ -37,3 +40,38 @@ export function bigStr(n: number): string {
 
     return t;
 } // Создание строки с длиной n из символов юникода
+
+function createBlogBD(i: number): BlogDbType {
+    return {
+        id: i, // Идентификатор
+        name: "Имя " + i, // Имя; максимальная длина: 15
+        description: "Описание " + i, // Описание; максимальная длина: 500
+        websiteUrl: "https://web.site/URL/" + i, // ЕУМР сетевого узла; максимальная длина: 100, шаблон: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
+        createdAt: new Date().getTime(), // Дата создания
+        isMembership: false // Подписка на членство в сетевом журнале
+    };
+} // Создание сетевого журнала для БД
+
+function createPostBD(i: number, b: number): PostDbType {
+    return {
+        id: i, // Идентификатор
+        title: "Название " + i, // Название; максимальная длина: 30
+        shortDescription: "Краткое описание " + i, // Краткое описание; максимальная длина: 100
+        content: "Содержание " + i, // Содержание; максимальная длина: 1000
+        blogId: (i - 1)%b + 1, // Идентификатор существующего сетевого журнала
+        createdAt: new Date().getTime() // Дата создания
+    };
+} // Создание сетевого журнала для БД
+
+function createDataSet(b: number, p: number): DBType {
+    const dataset: DBType = {
+        blogs: [], // Массив сетевых журналов
+        posts: [] // Массив записей
+    }; // Значения заполнения БД
+    var i: number;
+    
+    for(i = 1; i <= b; i++) dataset.blogs.push(createBlogBD(i));
+    for(i = 1; i <= p; i++) dataset.posts.push(createPostBD(i, b));
+    
+    return dataset;
+} // Создание набора данных
