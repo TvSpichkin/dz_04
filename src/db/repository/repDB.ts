@@ -39,7 +39,7 @@ export async function setDB(dataset?: DBType) {
     await db.collection<EntDbType>("posts").drop(); // Отчистка массива записей
     // Если в функцию ничего не передано - то очищаем базу данных
     if(dataset) { // Если что-то передано - то заменяем старые значения новыми
-        await db.collection<EntDbType>("blogs").insertMany(dataset.blogs);
-        await db.collection<EntDbType>("posts").insertMany(dataset.posts);
+        if(dataset.blogs.length) await db.collection<EntDbType>("blogs").insertMany(dataset.blogs);
+        if(dataset.posts.length) await db.collection<EntDbType>("posts").insertMany(dataset.posts);
     }
 } // Функция перезаписи БД

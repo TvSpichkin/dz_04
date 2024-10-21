@@ -1,9 +1,10 @@
 import {req, getBlog, pageData} from "./helpers/test-helpers";
 import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
-import {auth, bigStr, corrBlog1, corrBlog2, corrBlog3} from "./helpers/datasets";
+import {auth, bigStr, corrBlog1, corrBlog2, corrBlog3, createDataSet} from "./helpers/datasets";
 import {BlogViewModel} from "../src/IOtypes/blogsTypes";
 import {runDB, stopDB} from "../src/db/db";
+import {blogsServ} from "../src/domain/blogsServ";
 
 
 describe("/blogs", () => {
@@ -173,5 +174,19 @@ describe("/blogs", () => {
         await req.delete(SET.PATH.BLOGS + "/2").set(auth).expect(204);
 
         await getBlog.expect(200, pageData());
+    });
+
+    /*it("тест", async () => {
+        expect({name: 1}).toEqual({name: 1});
+    });*/
+
+    it("должен вернуть 200 и нужный набор сетевых журналов", async () => {
+        const totalCount = 100, // Количество сетевых журналов в тестовом наборе
+        DBmem = createDataSet(totalCount), // Создание тестового набора
+        memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper)); // Выходные сетевые журналы из тестового набора
+        console.log(memBlogs.reverse().slice(0, 10));
+        await setDB(DBmem); // Заполнение базы данных
+
+        await getBlog.expect(200, pageData(memBlogs.reverse().slice(0, 10), 1, 10, totalCount));
     });
 });

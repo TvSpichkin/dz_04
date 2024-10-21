@@ -47,7 +47,7 @@ function createBlogBD(i: number): BlogDbType {
         name: "Имя " + i, // Имя; максимальная длина: 15
         description: "Описание " + i, // Описание; максимальная длина: 500
         websiteUrl: "https://web.site/URL/" + i, // ЕУМР сетевого узла; максимальная длина: 100, шаблон: ^https://([a-zA-Z0-9_-]+\.)+[a-zA-Z0-9_-]+(\/[a-zA-Z0-9_-]+)*\/?$
-        createdAt: new Date().getTime(), // Дата создания
+        createdAt: new Date().getTime() + i - 1, // Дата создания
         isMembership: false // Подписка на членство в сетевом журнале
     };
 } // Создание сетевого журнала для БД
@@ -59,11 +59,11 @@ function createPostBD(i: number, b: number): PostDbType {
         shortDescription: "Краткое описание " + i, // Краткое описание; максимальная длина: 100
         content: "Содержание " + i, // Содержание; максимальная длина: 1000
         blogId: (i - 1)%b + 1, // Идентификатор существующего сетевого журнала
-        createdAt: new Date().getTime() // Дата создания
+        createdAt: new Date().getTime() + i - 1 // Дата создания
     };
 } // Создание сетевого журнала для БД
 
-function createDataSet(b: number, p: number): DBType {
+export function createDataSet(b: number, p: number = 0): DBType {
     const dataset: DBType = {
         blogs: [], // Массив сетевых журналов
         posts: [] // Массив записей
