@@ -176,17 +176,13 @@ describe("/blogs", () => {
         await getBlog.expect(200, pageData());
     });
 
-    /*it("тест", async () => {
-        expect({name: 1}).toEqual({name: 1});
-    });*/
-
     it("должен вернуть 200 и нужный набор сетевых журналов", async () => {
         const totalCount = 100, // Количество сетевых журналов в тестовом наборе
         DBmem = createDataSet(totalCount), // Создание тестового набора
-        memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper)); // Выходные сетевые журналы из тестового набора
-        console.log(memBlogs.reverse().slice(0, 10));
+        memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper).reverse()); // Выходные сетевые журналы из тестового набора
+        //console.log(memBlogs.slice(0, 10));
         await setDB(DBmem); // Заполнение базы данных
 
-        await getBlog.expect(200, pageData(memBlogs.reverse().slice(0, 10), 1, 10, totalCount));
+        await getBlog.expect(200, pageData(memBlogs.slice(0, 10), 1, 10, totalCount));
     });
 });
