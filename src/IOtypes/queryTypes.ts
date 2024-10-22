@@ -14,5 +14,5 @@ export type QueryInputModel = {
     sortBy: TypeEntFields, // Входящее поле сортировки
     sortDirection: TypeSortDir, // Входящее направление сортировки
     pageNumber: number, // Количество частей, которые должны быть возвращены
-    pageSize: number, // Размер порции, который должен быть возвращен
+    pageSize: number // Размер порции, который должен быть возвращен
 }; // Входная модель для запроса с вопросом

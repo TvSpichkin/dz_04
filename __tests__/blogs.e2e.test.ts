@@ -1,4 +1,4 @@
-import {req, getBlog, pageData} from "./helpers/test-helpers";
+import {req, getBlog, pageData, queryBlog} from "./helpers/test-helpers";
 import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
 import {auth, bigStr, corrBlog1, corrBlog2, corrBlog3, createDataSet} from "./helpers/datasets";
@@ -182,7 +182,8 @@ describe("/blogs", () => {
         memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper).reverse()); // Выходные сетевые журналы из тестового набора
         //console.log(memBlogs.slice(0, 10));
         await setDB(DBmem); // Заполнение базы данных
-
+        
         await getBlog.expect(200, pageData(memBlogs.slice(0, 10), 1, 10, totalCount));
+        await queryBlog().expect(200, pageData(memBlogs.slice(0, 10), 1, 10, totalCount));
     });
 });
