@@ -180,10 +180,13 @@ describe("/blogs", () => {
         const totalCount = 100, // Количество сетевых журналов в тестовом наборе
         DBmem = createDataSet(totalCount), // Создание тестового набора
         memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper).reverse()); // Выходные сетевые журналы из тестового набора
-        //console.log(memBlogs.slice(0, 10));
+        var tempBlogs = memBlogs.slice(0, 10); // Временные сетевые журналы для сравнения
+        console.log(memBlogs.filter(x => /0/.test(x.name)));
         await setDB(DBmem); // Заполнение базы данных
         
-        await getBlog.expect(200, pageData(memBlogs.slice(0, 10), 1, 10, totalCount));
-        await queryBlog().expect(200, pageData(memBlogs.slice(0, 10), 1, 10, totalCount));
+        await getBlog.expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        await queryBlog().expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        tempBlogs = memBlogs.filter(x => /0/.test(x.name));
+        await queryBlog("searchNameTerm=0").expect(200, pageData(tempBlogs.slice(0, 10), 1, 10, tempBlogs.length));
     });
 });
