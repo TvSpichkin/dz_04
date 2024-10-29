@@ -190,5 +190,7 @@ describe("/blogs", () => {
         await queryBlog("searchNameTerm=0").expect(200, pageData(tempBlogs.slice(0, 10), 1, 10, tempBlogs.length));
         tempBlogs = [...memBlogs].reverse().slice(0, 10);
         await queryBlog("sortBy=id&sortDirection=asc").expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        tempBlogs = memBlogs.slice(10, 20);
+        await queryBlog("pageNumber=2").expect(200, pageData(tempBlogs, 2, 10, totalCount));
     });
 });
