@@ -176,7 +176,7 @@ describe("/blogs", () => {
         await getBlog.expect(200, pageData());
     });
 
-    it("должен вернуть 200 и нужный набор сетевых журналов", async () => {
+    it("должен вернуть 200 и нужный набор сетевых журналов по запросу", async () => {
         const totalCount = 100, // Количество сетевых журналов в тестовом наборе
         DBmem = createDataSet(totalCount), // Создание тестового набора
         memBlogs = await Promise.all(DBmem.blogs.map(blogsServ.maper).reverse()); // Выходные сетевые журналы из тестового набора
@@ -194,5 +194,8 @@ describe("/blogs", () => {
         await queryBlog("pageNumber=2").expect(200, pageData(tempBlogs, 2, 10, totalCount));
         tempBlogs = memBlogs.slice(0, 7);
         await queryBlog("pageSize=7").expect(200, pageData(tempBlogs, 1, 7, totalCount));
+        tempBlogs = memBlogs.filter(x => /1/.test(x.name)).reverse();
+        await queryBlog("searchNameTerm=1&sortBy=id&sortDirection=asc&pageNumber=3&pageSize=5")
+        .expect(200, pageData(tempBlogs.slice(10, 15), 3, 5, tempBlogs.length));
     });
 });
