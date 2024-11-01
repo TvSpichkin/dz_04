@@ -1,9 +1,10 @@
 import {req, getPost, pageData} from "./helpers/test-helpers";
 import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
-import {auth, bigStr, corrPost1, corrPost2, corrPost3, corrBlog1, corrBlog2} from "./helpers/datasets";
+import {auth, bigStr, corrPost1, corrPost2, corrPost3, corrBlog1, corrBlog2, createDataSet} from "./helpers/datasets";
 import {PostViewModel} from "../src/IOtypes/postsTypes";
 import {runDB, stopDB} from "../src/db/db";
+import {postsServ} from "../src/domain/postsServ";
 
 
 describe("/posts", () => {
@@ -182,4 +183,6 @@ describe("/posts", () => {
 
         await getPost.expect(200, pageData());
     });
+
+    
 });

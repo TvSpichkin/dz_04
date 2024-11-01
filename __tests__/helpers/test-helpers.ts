@@ -12,6 +12,10 @@ export function queryBlog(q: string = ""): typeof getBlog {
     return req.get(SET.PATH.BLOGS + "?" + q);
 } // Запрос на получение всех сетевых журналов с вопросом
 
+export function queryPost(q: string = ""): typeof getPost {
+    return req.get(SET.PATH.POSTS + "?" + q);
+} // Запрос на получение всех записей с вопросом
+
 export function pageData(i: EntViewModel[] = [], p: number = 1, ps: number = 10, tc: number = i.length): Paginator<EntViewModel> {
     return {
         pagesCount: Math.ceil(tc/ps), // Количество страниц
