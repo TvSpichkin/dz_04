@@ -1,4 +1,4 @@
-import {req, getPost, pageData} from "./helpers/test-helpers";
+import {req, getPost, pageData, queryPost} from "./helpers/test-helpers";
 import {setDB} from "../src/db/repository/repDB";
 import {SET} from "../src/settings";
 import {auth, bigStr, corrPost1, corrPost2, corrPost3, corrBlog1, corrBlog2, createDataSet} from "./helpers/datasets";
@@ -184,5 +184,18 @@ describe("/posts", () => {
         await getPost.expect(200, pageData());
     });
 
-    
+    it("должен вернуть 200 и нужный набор записей по запросу", async () => {
+        const totalBlogCount = 5, // Количество сетевых журналов в тестовом наборе
+        totalCount = 100, // Количество записей в тестовом наборе
+        DBmem = createDataSet(totalBlogCount, totalCount), // Создание тестового набора
+        memPosts = await Promise.all(DBmem.posts.map(postsServ.maper).reverse()); // Выходные записи из тестового набора
+        var tempBlogs = memPosts.slice(0, 10); // Временные записи для сравнения
+        //console.log(memBlogs.filter(x => /0/.test(x.title)));
+        await setDB(DBmem); // Заполнение базы данных
+        
+        await getPost.expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        await queryPost().expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        tempBlogs = [...memPosts].reverse().slice(0, 10);
+        await queryPost("sortBy=id&sortDirection=asc").expect(200, pageData(tempBlogs, 1, 10, totalCount));
+    });
 });
