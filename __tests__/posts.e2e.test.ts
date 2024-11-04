@@ -190,7 +190,7 @@ describe("/posts", () => {
         DBmem = createDataSet(totalBlogCount, totalCount), // Создание тестового набора
         memPosts = await Promise.all(DBmem.posts.map(postsServ.maper).reverse()); // Выходные записи из тестового набора
         var tempBlogs = memPosts.slice(0, 10); // Временные записи для сравнения
-        //console.log(memBlogs.filter(x => /0/.test(x.title)));
+        console.log(memPosts);
         await setDB(DBmem); // Заполнение базы данных
         
         await getPost.expect(200, pageData(tempBlogs, 1, 10, totalCount));

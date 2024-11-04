@@ -4,6 +4,7 @@ import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
 import {TypeSortDir} from "../IOtypes/queryTypes";
 import {Paginator, paginator} from "./paginator";
+import {BlogDbType} from "../db/types/blogsDbTypes";
 
 const entKey = "posts";
 
@@ -56,8 +57,7 @@ export const postsServ = {
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: String(post.blogId),
-            // @ts-ignore: что-то с несоответствием типов
-            blogName: (await repBD.read("blogs", post.blogId))!.name, //! Этот метод используется после проверки существования
+            blogName: (await repBD.read("blogs", post.blogId) as BlogDbType).name, //! Этот метод используется после проверки существования
             createdAt: new Date(post.createdAt).toISOString()
         };
 
