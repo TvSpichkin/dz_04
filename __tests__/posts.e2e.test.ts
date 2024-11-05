@@ -190,12 +190,19 @@ describe("/posts", () => {
         DBmem = createDataSet(totalBlogCount, totalCount); // Создание тестового набора
         await setDB(DBmem); // Заполнение базы данных
         const memPosts = await Promise.all(DBmem.posts.map(postsServ.maper).reverse()); // Выходные записи из тестового набора
-        var tempBlogs = memPosts.slice(0, 10); // Временные записи для сравнения
+        var tempPosts = memPosts.slice(0, 10); // Временные записи для сравнения
         //console.log(memPosts);
         
-        await getPost.expect(200, pageData(tempBlogs, 1, 10, totalCount));
-        await queryPost().expect(200, pageData(tempBlogs, 1, 10, totalCount));
-        tempBlogs = [...memPosts].reverse().slice(0, 10);
-        await queryPost("sortBy=id&sortDirection=asc").expect(200, pageData(tempBlogs, 1, 10, totalCount));
+        await getPost.expect(200, pageData(tempPosts, 1, 10, totalCount));
+        await queryPost().expect(200, pageData(tempPosts, 1, 10, totalCount));
+        tempPosts = [...memPosts].reverse().slice(0, 10);
+        await queryPost("sortBy=id&sortDirection=asc").expect(200, pageData(tempPosts, 1, 10, totalCount));
+        tempPosts = memPosts.slice(10, 20);
+        await queryPost("pageNumber=2").expect(200, pageData(tempPosts, 2, 10, totalCount));
+        /*tempPosts = memPosts.slice(0, 7);
+        await queryPost("pageSize=7").expect(200, pageData(tempPosts, 1, 7, totalCount));
+        tempPosts = memPosts.filter(x => /1/.test(x.title)).reverse();
+        await queryPost("searchNameTerm=1&sortBy=id&sortDirection=asc&pageNumber=3&pageSize=5")
+        .expect(200, pageData(tempPosts.slice(10, 15), 3, 5, tempPosts.length));*/
     });
 });
