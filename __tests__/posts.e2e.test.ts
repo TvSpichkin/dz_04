@@ -199,9 +199,9 @@ describe("/posts", () => {
         await queryPost("sortBy=id&sortDirection=asc").expect(200, pageData(tempPosts, 1, 10, totalCount));
         tempPosts = memPosts.slice(10, 20);
         await queryPost("pageNumber=2").expect(200, pageData(tempPosts, 2, 10, totalCount));
-        /*tempPosts = memPosts.slice(0, 7);
+        tempPosts = memPosts.slice(0, 7);
         await queryPost("pageSize=7").expect(200, pageData(tempPosts, 1, 7, totalCount));
-        tempPosts = memPosts.filter(x => /1/.test(x.title)).reverse();
+        /*tempPosts = memPosts.filter(x => /1/.test(x.title)).reverse();
         await queryPost("searchNameTerm=1&sortBy=id&sortDirection=asc&pageNumber=3&pageSize=5")
         .expect(200, pageData(tempPosts.slice(10, 15), 3, 5, tempPosts.length));*/
     });
