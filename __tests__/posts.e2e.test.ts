@@ -9,7 +9,7 @@ import {postsServ} from "../src/domain/postsServ";
 
 describe("/posts", () => {
     var post1: PostViewModel, post2: PostViewModel, blogName1 = corrBlog1.name, blogName2 = corrBlog2.name;
-    
+
     beforeAll(async () => {
         await runDB(); // Подключение к БД
         await setDB(); // Очистка базы данных перед началом тестирования
