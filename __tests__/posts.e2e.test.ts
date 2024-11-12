@@ -19,7 +19,7 @@ describe("/posts", () => {
     afterAll(async () => {
         await stopDB(); // Отключение от БД
     });
-    
+
     it("должен вернуть 200 и пустой массив", async () => {
         await getPost.expect(200, pageData());
     });
