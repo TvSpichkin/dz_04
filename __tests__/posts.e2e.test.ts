@@ -192,7 +192,7 @@ describe("/posts", () => {
         const memPosts = await Promise.all(DBmem.posts.map(postsServ.maper).reverse()); // Выходные записи из тестового набора
         var tempPosts = memPosts.slice(0, 10); // Временные записи для сравнения
         //console.log(memPosts);
-        
+
         await getPost.expect(200, pageData(tempPosts, 1, 10, totalCount));
         await queryPost().expect(200, pageData(tempPosts, 1, 10, totalCount));
         tempPosts = [...memPosts].reverse().slice(0, 10);
