@@ -9,7 +9,7 @@ import {blogsServ} from "../src/domain/blogsServ";
 
 describe("/blogs", () => {
     var blog1: BlogViewModel, blog2: BlogViewModel;
-    
+
     beforeAll(async () => {
         await runDB(); // Подключение к БД
         await setDB(); // Очистка базы данных перед началом тестирования
