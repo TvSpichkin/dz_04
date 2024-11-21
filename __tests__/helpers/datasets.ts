@@ -35,7 +35,7 @@ function createPost(t: string, s: string, c: string, b: string): PostInputModel 
 
 export function bigStr(n: number): string {
     var t: string = "";
-    
+
     for(let i = 0; i < n; i++) t += String.fromCharCode(33 + (i < 94 ? i : i + 33));
 
     return t;
