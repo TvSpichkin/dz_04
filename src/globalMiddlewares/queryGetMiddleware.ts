@@ -38,7 +38,7 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
     
     if(checkPN(q.pageNumber)) q.pageNumber = +q.pageNumber;
     else q.pageNumber = 1; // Задание исходного значения номера страницы
-    
+
     if(checkPS(q.pageSize)) q.pageSize = +q.pageSize;
     else q.pageSize = 10; // Задание исходного значения размера страницы
 
