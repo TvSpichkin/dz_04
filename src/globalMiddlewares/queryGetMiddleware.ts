@@ -35,7 +35,7 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
     
     if(!checkSB(q.sortBy)) q.sortBy = EntFields.createdAt; // Задание исходного значения поля сортировки
     if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения направления сортировки
-    
+
     if(checkPN(q.pageNumber)) q.pageNumber = +q.pageNumber;
     else q.pageNumber = 1; // Задание исходного значения номера страницы
 
