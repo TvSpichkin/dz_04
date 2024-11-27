@@ -32,7 +32,7 @@ export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response
         const snt = q.searchNameTerm.trim();
         if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
     } // Проверка правильности входящего поискового термина для имени
-    
+
     if(!checkSB(q.sortBy)) q.sortBy = EntFields.createdAt; // Задание исходного значения поля сортировки
     if(!checkSD(q.sortDirection)) q.sortDirection = SortDirections.desc; // Задание исходного значения направления сортировки
 
