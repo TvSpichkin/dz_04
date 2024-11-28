@@ -27,7 +27,7 @@ function checkPS(ps: QueryInputModel["pageSize"]) {
 
 export function queryGetMiddleware(req: ReqQuery<QueryInputModel>, res: Response, next: NextFunction) {
     const q = req.query;
-    
+
     if(typeof q.searchNameTerm === "string") {
         const snt = q.searchNameTerm.trim();
         if(!snt || snt.length > SET.MaxLen.BLOG.NAME) q.searchNameTerm = undefined; // Задание исходного значения поискового термина
