@@ -14,7 +14,7 @@ export const blogsServ = {
         searchNameFilt: ProtoFilterType[] = searchNameTerm ? // Данные поискового термина для генерации фильтра
         [{key: blogFields.name, value: searchNameTerm, way: 1}] : [],
         [totalCount, blogs] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, searchNameFilt) as [number, BlogDbType[]]; // Cетевые журналы и их количество
-        
+
         return paginator(page, pageSize, totalCount, await Promise.all(blogs.map(this.maper))) as Paginator<BlogViewModel>; // Нумерация страниц
     }, // Извлечение всех сетевых журналов
     async find(id: string): Promise<BlogDbType | null> {
