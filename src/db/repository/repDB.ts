@@ -11,7 +11,7 @@ function dirSort(d: TypeSortDir): 1 | -1 {
 export const repBD = {
     async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snf: ProtoFilterType[]): Promise<[number, EntDbType[]]> {
         const filter = createFilter(snf); // Создание поискового фильтра
-        
+
         return Promise.all([db.collection<EntDbType>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
             db.collection<EntDbType>(entKey).find(filter).sort({[sb]: dirSort(sd)}).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
     }, // Извлечение всех сущностей
