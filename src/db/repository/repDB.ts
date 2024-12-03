@@ -20,7 +20,7 @@ export const repBD = {
     }, // Извлечение сущности по идентификатору
     async write(entKey: KeysDB, entity: EntDbType): Promise<number> {
         const endId = await db.collection<EntDbType>(entKey).find({id: 1}).sort({$natural: -1}).limit(1).toArray();
-        
+
         entity.id = endId.length ? endId[0].id + 1 : 1;
         await db.collection<EntDbType>(entKey).insertOne(entity);
         
