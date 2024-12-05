@@ -13,7 +13,7 @@ function valueAssigner(w: ProtoFilterType["way"], v: ProtoFilterType["value"]) {
 
 export function createFilter(pf: ProtoFilterType[]): Filter<EntDbType> {
     const f: Filter<EntDbType> = {};
-    
+
     for(let i = 0; i < pf.length; i++) {
         f[pf[i].key] = valueAssigner(pf[i].way, pf[i].value); // Заполнение фильтра
     }
