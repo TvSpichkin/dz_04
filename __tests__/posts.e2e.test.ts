@@ -74,7 +74,7 @@ describe("/posts", () => {
     });
 
     it("должен создать запись c правильными входными данными", async () => {
-        post1 = (await req.post(SET.PATH.POSTS).set(auth).send(corrPost1).expect(201)).body;
+        post1 = (await req.post(SET.PATH.POSTS).set(auth).send(corrPost1).expect(201)).body; // Создание записи по основному пути
         expect(corrPost1).toEqual({
             title: post1.title,
             shortDescription: post1.shortDescription,
@@ -85,7 +85,7 @@ describe("/posts", () => {
         expect(post1.blogName).toBe(blogName1);
         expect(new Date(post1.createdAt).getTime()).not.toBeNaN();
 
-        post2 = (await req.post(SET.PATH.POSTS).set(auth).send(corrPost2).expect(201)).body;
+        post2 = (await req.post(`/blogs/${corrPost2.blogId}/posts`).set(auth).send({...corrPost2, blogId: undefined}).expect(201)).body; // Создание записи по дополнительному пути
         expect(corrPost2).toEqual({
             title: post2.title,
             shortDescription: post2.shortDescription,
