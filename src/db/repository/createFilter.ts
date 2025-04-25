@@ -1,5 +1,6 @@
 import {Filter} from "mongodb";
-import {EntDbType, ProtoFilterType} from "../types/typesRepDB";
+import {EntDbType, ProtoFilterType, TypeEntFields} from "../types/typesRepDB";
+import {TypeSortDir} from "../../IOtypes/queryTypes";
 
 
 function valueAssigner(w: ProtoFilterType["way"], v: ProtoFilterType["value"]) {
@@ -11,6 +12,11 @@ function valueAssigner(w: ProtoFilterType["way"], v: ProtoFilterType["value"]) {
     }
 } // Присваивание значений
 
+function dirSort(d: TypeSortDir): 1 | -1 {
+    return d[3] ? -1 : 1;
+} // Задание направления сортировки для БД
+
+
 export function createFilter(pf: ProtoFilterType[]): Filter<EntDbType> {
     const f: Filter<EntDbType> = {};
 
@@ -20,3 +26,11 @@ export function createFilter(pf: ProtoFilterType[]): Filter<EntDbType> {
 
     return f;
 } // Генерация фильтра
+
+export function createSorter(sb: TypeEntFields, sd: TypeSortDir) {
+    const d: 1 | -1 = dirSort(sd), s = {[sb]: d};
+
+    if(sb != "createdAt") s.createdAt = d; // Добавление второго сортировочного поля по дате создания
+
+    return s;
+} // Генерация сортировщика
