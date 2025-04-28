@@ -8,7 +8,7 @@ export const repBD = {
     async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snf: ProtoFilterType[]): Promise<[number, EntDbType[]]> {
         const filter = createFilter(snf), // Создание поискового фильтра
         sorter = createSorter(sb, sd); // Создание сортировщика
-        
+
         return Promise.all([db.collection<EntDbType>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
             db.collection<EntDbType>(entKey).find(filter).sort(sorter).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
     }, // Извлечение всех сущностей
@@ -17,7 +17,7 @@ export const repBD = {
     }, // Извлечение сущности по идентификатору
     async write(entKey: KeysDB, entity: EntDbType): Promise<number> {
         const endId = await db.collection<EntDbType>(entKey).find({}).sort({$natural: -1}).limit(1).toArray();
-
+        
         entity.id = endId.length ? endId[0].id + 1 : 1;
         await db.collection<EntDbType>(entKey).insertOne(entity);
 
