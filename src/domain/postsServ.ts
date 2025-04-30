@@ -14,7 +14,7 @@ export const postsServ = {
         blogIdFilt: ProtoFilterType[] = blogId ? // Идентификатор сетевого журнала для генерации фильтра
         [{key: postFields.blogId, value: blogId, way: 0}] : [],
         [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, blogIdFilt) as [number, PostDbType[]];
-
+        
         return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
     async find(id: string): Promise<PostDbType | null> {
