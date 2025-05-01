@@ -33,7 +33,7 @@ export const postsServ = {
             blogId: +post.blogId,
             createdAt: new Date().getTime()
         };
-
+        
         newPost.id = await repBD.write(entKey, newPost);
 
         return this.maper(newPost);
