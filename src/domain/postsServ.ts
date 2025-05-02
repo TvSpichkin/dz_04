@@ -35,7 +35,7 @@ export const postsServ = {
         };
         
         newPost.id = await repBD.write(entKey, newPost);
-
+        
         return this.maper(newPost);
     }, // Запись записи в БД
     async del(id: string) {
