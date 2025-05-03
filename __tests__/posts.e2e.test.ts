@@ -85,7 +85,7 @@ describe("/posts", () => {
         expect(post1.blogName).toBe(blogName1);
         expect(new Date(post1.createdAt).getTime()).not.toBeNaN();
 
-        post2 = (await req.post(`/blogs/${corrPost2.blogId}/posts`).set(auth).send({...corrPost2, blogId: undefined}).expect(201)).body; // Создание записи по дополнительному пути
+        post2 = (await req.post("/blogs/" + corrPost2.blogId + "/posts").set(auth).send({...corrPost2, blogId: undefined}).expect(201)).body; // Создание записи по дополнительному пути
         expect(corrPost2).toEqual({
             title: post2.title,
             shortDescription: post2.shortDescription,
@@ -201,8 +201,8 @@ describe("/posts", () => {
         await queryPost("pageNumber=2").expect(200, pageData(tempPosts, 2, 10, totalCount));
         tempPosts = memPosts.slice(0, 7);
         await queryPost("pageSize=7").expect(200, pageData(tempPosts, 1, 7, totalCount));
-        tempPosts = memPosts.filter(x => /1/.test(x.title)).reverse();
-        await queryPost("sortBy=id&sortDirection=asc&pageNumber=3&pageSize=5")
+        tempPosts = memPosts.filter(x => /2/.test(x.blogId)).reverse();
+        await req.get("/blogs/2/posts?sortBy=id&sortDirection=asc&pageNumber=3&pageSize=5")
         .expect(200, pageData(tempPosts.slice(10, 15), 3, 5, tempPosts.length));
     });
 });
