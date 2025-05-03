@@ -60,7 +60,7 @@ export const postsServ = {
             blogName: (await repBD.read("blogs", post.blogId) as BlogDbType).name, //! Этот метод используется после проверки существования
             createdAt: new Date(post.createdAt).toISOString()
         };
-
+        
         return postForOutput;
     } // Конвертация записей из БД в модельный вид
 }; // Работа с базой данных
