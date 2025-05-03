@@ -6,7 +6,7 @@ import {TypeSortDir} from "../../IOtypes/queryTypes";
 function valueAssigner(w: ProtoFilterType["way"], v: ProtoFilterType["value"]) {
     switch(w) {
         case 1:
-            return {$regex: v};
+            return {$regex: v, $options: "i"};
         default:
             return v;
     }

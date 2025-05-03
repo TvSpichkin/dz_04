@@ -1,6 +1,6 @@
 import {db} from "../db";
 import {DBType, ProtoFilterType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields} from "../types/typesRepDB";
-import {TypeSNT, TypeSortDir} from "../../IOtypes/queryTypes";
+import {TypeSortDir} from "../../IOtypes/queryTypes";
 import {createFilter, createSorter} from "./createFilter";
 
 
