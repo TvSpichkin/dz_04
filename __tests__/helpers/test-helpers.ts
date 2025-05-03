@@ -1,4 +1,4 @@
-import supertest, {agent} from "supertest";
+import {agent} from "supertest";
 import {app} from "../../src/app";
 import {SET} from "../../src/settings";
 import {EntViewModel, Paginator} from "../../src/domain/paginator";

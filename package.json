@@ -9,8 +9,8 @@
     "смотр": "tsc -w",
     "dev": "nodemon --inspect bin/index.js",
     "раз": "nodemon --inspect bin/index.js",
-    "test": "jest",
-    "тест": "jest",
+    "test": "jest -i --forceExit",
+    "тест": "jest -i --forceExit",
     "build": "tsc",
     "start": "node bin/index.js"
   },
