@@ -31,6 +31,6 @@ export function createSorter(sb: TypeEntFields, sd: TypeSortDir) {
     const d: 1 | -1 = dirSort(sd), s = {[sb]: d};
     
     if(sb != "createdAt") s.createdAt = d; // Добавление второго сортировочного поля по дате создания
-
+    
     return s;
 } // Генерация сортировщика
