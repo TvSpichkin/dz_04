@@ -37,7 +37,7 @@ export function bigStr(n: number): string {
     var t: string = "";
     
     for(let i = 0; i < n; i++) t += String.fromCharCode(33 + (i < 94 ? i : i + 33));
-
+    
     return t;
 } // Создание строки с длиной n из символов юникода
 
