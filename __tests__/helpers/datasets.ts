@@ -69,7 +69,7 @@ export function createDataSet(b: number, p: number = 0): DBType {
         posts: [] // Массив записей
     }; // Значения заполнения БД
     var i: number;
-
+    
     for(i = 1; i <= b; i++) dataset.blogs.push(createBlogBD(i));
     for(i = 1; i <= p; i++) dataset.posts.push(createPostBD(i, b));
 
