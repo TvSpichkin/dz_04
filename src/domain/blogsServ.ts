@@ -33,7 +33,7 @@ export const blogsServ = {
             createdAt: new Date().getTime(),
             isMembership: false
         };
-
+        
         newBlog.id = (await repBD.write(entKey, newBlog));
 
         return this.maper(newBlog);
