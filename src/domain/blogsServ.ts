@@ -35,7 +35,7 @@ export const blogsServ = {
         };
         
         newBlog.id = (await repBD.write(entKey, newBlog));
-
+        
         return this.maper(newBlog);
     }, // Запись сетевого журнала в БД
     async del(id: string) {
