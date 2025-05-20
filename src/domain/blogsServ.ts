@@ -59,7 +59,7 @@ export const blogsServ = {
             createdAt: new Date(blog.createdAt).toISOString(),
             isMembership: blog.isMembership
         };
-
+        
         return blogForOutput;
     } // Конвертация сетевых журналов из БД в модельный вид
 }; // Работа с базой данных
