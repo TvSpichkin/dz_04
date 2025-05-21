@@ -36,28 +36,28 @@ describe("/blogs", () => {
 
     it("не должен создать сетевой журнал c неправильными входными данными", async () => {
         const blog = corrBlog1;
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).expect(400);
         await getBlog.expect(200, pageData());
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).send().expect(400);
         await getBlog.expect(200, pageData());
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).send({название: 0}).expect(400);
         await getBlog.expect(200, pageData());
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, name: undefined}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, name: 0}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, name: bigStr(16)}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, name: "    "}).expect(400);
         await getBlog.expect(200, pageData());
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, description: undefined}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, description: 0}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, description: bigStr(501)}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, description: "    "}).expect(400);
         await getBlog.expect(200, pageData());
-
+        
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, websiteUrl: undefined}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, websiteUrl: 0}).expect(400);
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, websiteUrl: bigStr(101)}).expect(400);
@@ -81,7 +81,7 @@ describe("/blogs", () => {
         expect(blog1.id).toBe("1");
         expect(new Date(blog1.createdAt).getTime()).not.toBeNaN();
         expect(blog1.isMembership).toBe(false);
-
+        
         blog2 = (await req.post(SET.PATH.BLOGS).set(auth).send(corrBlog2).expect(201)).body;
         expect(corrBlog2).toEqual({
             name: blog2.name,
@@ -91,7 +91,7 @@ describe("/blogs", () => {
         expect(blog2.id).toBe("2");
         expect(new Date(blog2.createdAt).getTime()).not.toBeNaN();
         expect(blog2.isMembership).toBe(false);
-
+        
         await getBlog.expect(200, pageData([blog1, blog2]));
     });
 
@@ -110,28 +110,28 @@ describe("/blogs", () => {
 
     it("не должен обновить сетевые журналы c неправильными входными данными", async () => {
         const blog = corrBlog2;
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send().expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({название: 0}).expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, name: undefined}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, name: 0}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, name: bigStr(16)}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, name: "    "}).expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, description: undefined}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, description: 0}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, description: bigStr(501)}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, description: "    "}).expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
-
+        
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, websiteUrl: undefined}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, websiteUrl: 0}).expect(400);
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, websiteUrl: bigStr(101)}).expect(400);
@@ -172,7 +172,7 @@ describe("/blogs", () => {
     it("должен удалить существующий сетевой журнал", async () => {
         await req.delete(SET.PATH.BLOGS + "/1").set(auth).expect(204);
         await req.delete(SET.PATH.BLOGS + "/2").set(auth).expect(204);
-
+        
         await getBlog.expect(200, pageData());
     });
 
@@ -183,7 +183,7 @@ describe("/blogs", () => {
         var tempBlogs = memBlogs.slice(0, 10); // Временные сетевые журналы для сравнения
         //console.log(memBlogs.filter(x => /0/.test(x.name)));
         await setDB(DBmem); // Заполнение базы данных
-
+        
         await getBlog.expect(200, pageData(tempBlogs, 1, 10, totalCount));
         await queryBlog().expect(200, pageData(tempBlogs, 1, 10, totalCount));
         tempBlogs = memBlogs.filter(x => /0/.test(x.name));
