@@ -114,34 +114,34 @@ describe("/posts", () => {
 
     it("не должен обновить записи c неправильными входными данными", async () => {
         const post = corrPost2;
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send().expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({название: 0}).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, title: undefined}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, title: 0}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, title: bigStr(31)}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, title: "    "}).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, shortDescription: undefined}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, shortDescription: 0}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, shortDescription: bigStr(101)}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, shortDescription: "    "}).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, content: undefined}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, content: 0}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, content: bigStr(1001)}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, content: "    "}).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
-
+        
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, blogId: undefined}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, blogId: 0}).expect(400);
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, blogId: "-1"}).expect(400);
@@ -174,13 +174,13 @@ describe("/posts", () => {
 
     it("должен удалить существующую запись", async () => {
         await req.delete(SET.PATH.POSTS + "/2").set(auth).expect(204);
-
+        
         await getPost.expect(200, pageData([post1]));
     });
 
     it("должен удалить все существующие записи сетевого журнала при его удалении", async () => {
         await req.delete(SET.PATH.BLOGS + "/2").set(auth).expect(204);
-
+        
         await getPost.expect(200, pageData());
     });
 
@@ -192,7 +192,7 @@ describe("/posts", () => {
         const memPosts = await Promise.all(DBmem.posts.map(postsServ.maper).reverse()); // Выходные записи из тестового набора
         var tempPosts = memPosts.slice(0, 10); // Временные записи для сравнения
         //console.log(memPosts);
-
+        
         await getPost.expect(200, pageData(tempPosts, 1, 10, totalCount));
         await queryPost().expect(200, pageData(tempPosts, 1, 10, totalCount));
         tempPosts = [...memPosts].sort((a, b) => +a.blogId - +b.blogId || +a.id - +b.id).slice(0, 10);
