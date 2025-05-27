@@ -9,7 +9,7 @@ import {postsServ} from "../src/domain/postsServ";
 
 describe("/posts", () => {
     var post1: PostViewModel, post2: PostViewModel, blogName1 = corrBlog1.name, blogName2 = corrBlog2.name;
-
+    
     beforeAll(async () => {
         await runDB(); // Подключение к БД
         await setDB(); // Очистка базы данных перед началом тестирования
@@ -19,16 +19,15 @@ describe("/posts", () => {
     afterAll(async () => {
         await stopDB(); // Отключение от БД
     });
-
+    
     it("должен вернуть 200 и пустой массив", async () => {
         await getPost.expect(200, pageData());
     });
-
-
+    
     it("должен вернуть 404 для несуществующей записи", async () => {
         await req.get(SET.PATH.POSTS + "/-1").expect(404);
     });
-
+    
     it("не должен создать запись без авторизации и должен вернуть 401", async () => {
         await req.post(SET.PATH.POSTS).send(corrPost1).expect(401);
         await req.post(SET.PATH.POSTS).set({"Auth": "Basic cisaB"}).send(corrPost1).expect(401);
@@ -36,43 +35,43 @@ describe("/posts", () => {
         await req.post(SET.PATH.POSTS).set({"Authorization": "Basic cisaB"}).send(corrPost1).expect(401);
         await getPost.expect(200, pageData());
     });
-
+    
     it("не должен создать запись c неправильными входными данными", async () => {
         const post = corrPost1;
-
+        
         await req.post(SET.PATH.POSTS).set(auth).expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send().expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send({название: 0}).expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send({...post, title: undefined}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, title: 0}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, title: bigStr(31)}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, title: "    "}).expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send({...post, shortDescription: undefined}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, shortDescription: 0}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, shortDescription: bigStr(101)}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, shortDescription: "    "}).expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send({...post, content: undefined}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, content: 0}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, content: bigStr(1001)}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, content: "    "}).expect(400);
         await getPost.expect(200, pageData());
-
+        
         await req.post(SET.PATH.POSTS).set(auth).send({...post, blogId: undefined}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, blogId: 0}).expect(400);
         await req.post(SET.PATH.POSTS).set(auth).send({...post, blogId: "-1"}).expect(400);
         await getPost.expect(200, pageData());
     });
-
+    
     it("должен создать запись c правильными входными данными", async () => {
         post1 = (await req.post(SET.PATH.POSTS).set(auth).send(corrPost1).expect(201)).body; // Создание записи по основному пути
         expect(corrPost1).toEqual({
@@ -84,7 +83,7 @@ describe("/posts", () => {
         expect(post1.id).toBe("1");
         expect(post1.blogName).toBe(blogName1);
         expect(new Date(post1.createdAt).getTime()).not.toBeNaN();
-
+        
         post2 = (await req.post("/blogs/" + corrPost2.blogId + "/posts").set(auth).send({...corrPost2, blogId: undefined}).expect(201)).body; // Создание записи по дополнительному пути
         expect(corrPost2).toEqual({
             title: post2.title,
@@ -95,15 +94,15 @@ describe("/posts", () => {
         expect(post2.id).toBe("2");
         expect(post2.blogName).toBe(blogName1);
         expect(new Date(post2.createdAt).getTime()).not.toBeNaN();
-
+        
         await getPost.expect(200, pageData([post1, post2]));
     });
-
+    
     it("должен вернуть 200 и созданные записи", async () => {
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
         await req.get(SET.PATH.POSTS + "/2").expect(200, post2);
     });
-
+    
     it("не должен обновить запись без авторизации и должен вернуть 401", async () => {
         await req.put(SET.PATH.POSTS + "/1").send(corrPost2).expect(401);
         await req.put(SET.PATH.POSTS + "/1").set({"Auth": "Basic cisaB"}).send(corrPost2).expect(401);
@@ -111,7 +110,7 @@ describe("/posts", () => {
         await req.put(SET.PATH.POSTS + "/1").set({"Authorization": "Basic cisaB"}).send(corrPost2).expect(401);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
     });
-
+    
     it("не должен обновить записи c неправильными входными данными", async () => {
         const post = corrPost2;
         
@@ -147,11 +146,11 @@ describe("/posts", () => {
         await req.put(SET.PATH.POSTS + "/1").set(auth).send({...post, blogId: "-1"}).expect(400);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
     });
-
+    
     it("не должен обновить несуществующую запись", async () => {
         await req.put(SET.PATH.POSTS + "/-1").set(auth).send(corrPost2).expect(404);
     });
-
+    
     it("должен обновить запись c правильными входными данными", async () => {
         const post = corrPost3;
         post1 = {...post1, ...post, blogName: blogName2};
@@ -159,7 +158,7 @@ describe("/posts", () => {
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
         await req.get(SET.PATH.POSTS + "/2").expect(200, post2);
     });
-
+    
     it("не должен удалить запись без авторизации и должен вернуть 401", async () => {
         await req.delete(SET.PATH.POSTS + "/1").expect(401);
         await req.delete(SET.PATH.POSTS + "/1").set({"Auth": "Basic cisaB"}).expect(401);
@@ -167,23 +166,23 @@ describe("/posts", () => {
         await req.delete(SET.PATH.POSTS + "/1").set({"Authorization": "Basic cisaB"}).expect(401);
         await req.get(SET.PATH.POSTS + "/1").expect(200, post1);
     });
-
+    
     it("не должен удалить несуществующую запись", async () => {
         await req.delete(SET.PATH.POSTS + "/-1").set(auth).expect(404);
     });
-
+    
     it("должен удалить существующую запись", async () => {
         await req.delete(SET.PATH.POSTS + "/2").set(auth).expect(204);
         
         await getPost.expect(200, pageData([post1]));
     });
-
+    
     it("должен удалить все существующие записи сетевого журнала при его удалении", async () => {
         await req.delete(SET.PATH.BLOGS + "/2").set(auth).expect(204);
         
         await getPost.expect(200, pageData());
     });
-
+    
     it("должен вернуть 200 и нужный набор записей по запросу", async () => {
         const totalBlogCount = 5, // Количество сетевых журналов в тестовом наборе
         totalCount = 100, // Количество записей в тестовом наборе
