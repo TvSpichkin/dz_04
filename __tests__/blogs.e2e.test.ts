@@ -17,7 +17,7 @@ describe("/blogs", () => {
     afterAll(async () => {
         await stopDB(); // Отключение от БД
     });
-
+    
     it("должен вернуть 200 и пустой массив", async () => {
         await getBlog.expect(200, pageData());
     });
