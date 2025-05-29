@@ -21,7 +21,7 @@ describe("/blogs", () => {
     it("должен вернуть 200 и пустой массив", async () => {
         await getBlog.expect(200, pageData());
     });
-
+    
     it("должен вернуть 404 для несуществующего сетевого журнала", async () => {
         await req.get(SET.PATH.BLOGS + "/-1").expect(404);
     });
