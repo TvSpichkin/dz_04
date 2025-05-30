@@ -25,7 +25,7 @@ describe("/blogs", () => {
     it("должен вернуть 404 для несуществующего сетевого журнала", async () => {
         await req.get(SET.PATH.BLOGS + "/-1").expect(404);
     });
-
+    
     it("не должен создать сетевой журнал без авторизации и должен вернуть 401", async () => {
         await req.post(SET.PATH.BLOGS).send(corrBlog1).expect(401);
         await req.post(SET.PATH.BLOGS).set({"Auth": "Basic cisaB"}).send(corrBlog1).expect(401);
