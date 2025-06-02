@@ -33,7 +33,7 @@ describe("/blogs", () => {
         await req.post(SET.PATH.BLOGS).set({"Authorization": "Basic cisaB"}).send(corrBlog1).expect(401);
         await getBlog.expect(200, pageData());
     });
-
+    
     it("не должен создать сетевой журнал c неправильными входными данными", async () => {
         const blog = corrBlog1;
         
