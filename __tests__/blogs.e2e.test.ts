@@ -70,7 +70,7 @@ describe("/blogs", () => {
         await req.post(SET.PATH.BLOGS).set(auth).send({...blog, websiteUrl: "https://vasi1./k/i/4/"}).expect(400);
         await getBlog.expect(200, pageData());
     });
-
+    
     it("должен создать сетевой журнал c правильными входными данными", async () => {
         blog1 = (await req.post(SET.PATH.BLOGS).set(auth).send(corrBlog1).expect(201)).body;
         expect(corrBlog1).toEqual({
