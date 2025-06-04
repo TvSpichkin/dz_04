@@ -94,7 +94,7 @@ describe("/blogs", () => {
         
         await getBlog.expect(200, pageData([blog1, blog2]));
     });
-
+    
     it("должен вернуть 200 и созданные сетевые журналы", async () => {
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
         await req.get(SET.PATH.BLOGS + "/2").expect(200, blog2);
