@@ -99,7 +99,7 @@ describe("/blogs", () => {
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
         await req.get(SET.PATH.BLOGS + "/2").expect(200, blog2);
     });
-
+    
     it("не должен обновить сетевой журнал без авторизации и должен вернуть 401", async () => {
         await req.put(SET.PATH.BLOGS + "/1").send(corrBlog2).expect(401);
         await req.put(SET.PATH.BLOGS + "/1").set({"Auth": "Basic cisaB"}).send(corrBlog2).expect(401);
