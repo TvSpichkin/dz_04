@@ -107,7 +107,7 @@ describe("/blogs", () => {
         await req.put(SET.PATH.BLOGS + "/1").set({"Authorization": "Basic cisaB"}).send(corrBlog2).expect(401);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
     });
-
+    
     it("не должен обновить сетевые журналы c неправильными входными данными", async () => {
         const blog = corrBlog2;
         
