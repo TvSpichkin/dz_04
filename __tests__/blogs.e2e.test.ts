@@ -144,7 +144,7 @@ describe("/blogs", () => {
         await req.put(SET.PATH.BLOGS + "/1").set(auth).send({...blog, websiteUrl: "https://vasi1./k/i/4/"}).expect(400);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
     });
-
+    
     it("не должен обновить несуществующий сетевой журнал", async () => {
         await req.put(SET.PATH.BLOGS + "/-1").set(auth).send(corrBlog2).expect(404);
     });
