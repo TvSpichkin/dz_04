@@ -148,7 +148,7 @@ describe("/blogs", () => {
     it("не должен обновить несуществующий сетевой журнал", async () => {
         await req.put(SET.PATH.BLOGS + "/-1").set(auth).send(corrBlog2).expect(404);
     });
-
+    
     it("должен обновить сетевой журнал c правильными входными данными", async () => {
         const blog = corrBlog3;
         blog1 = {...blog1, ...blog};
