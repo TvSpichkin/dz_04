@@ -164,7 +164,7 @@ describe("/blogs", () => {
         await req.delete(SET.PATH.BLOGS + "/1").set({"Authorization": "Basic cisaB"}).expect(401);
         await req.get(SET.PATH.BLOGS + "/1").expect(200, blog1);
     });
-
+    
     it("не должен удалить несуществующий сетевой журнал", async () => {
         await req.delete(SET.PATH.BLOGS + "/-1").set(auth).expect(404);
     });
