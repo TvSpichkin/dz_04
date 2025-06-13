@@ -168,7 +168,7 @@ describe("/blogs", () => {
     it("не должен удалить несуществующий сетевой журнал", async () => {
         await req.delete(SET.PATH.BLOGS + "/-1").set(auth).expect(404);
     });
-
+    
     it("должен удалить существующий сетевой журнал", async () => {
         await req.delete(SET.PATH.BLOGS + "/1").set(auth).expect(204);
         await req.delete(SET.PATH.BLOGS + "/2").set(auth).expect(204);
