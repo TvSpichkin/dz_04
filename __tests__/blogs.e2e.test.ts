@@ -175,7 +175,7 @@ describe("/blogs", () => {
         
         await getBlog.expect(200, pageData());
     });
-
+    
     it("должен вернуть 200 и нужный набор сетевых журналов по запросу", async () => {
         const totalCount = 100, // Количество сетевых журналов в тестовом наборе
         DBmem = createDataSet(totalCount), // Создание тестового набора
