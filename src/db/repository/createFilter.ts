@@ -34,3 +34,14 @@ export function createSorter(sb: TypeEntFields, sd: TypeSortDir) {
     
     return s;
 } // Генерация сортировщика
+
+export function createAggregater() {
+    const s = {$lookup: {
+        from: 'blogs',
+        localField: 'blogId',
+        foreignField: 'id',
+        as: 'blogName'
+    }};
+    
+    return s;
+} // Генерация агрегата
