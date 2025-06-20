@@ -1,5 +1,5 @@
-import {Filter} from "mongodb";
-import {EntDbType, ProtoFilterType, TypeEntFields} from "../types/typesRepDB";
+import {Document, Filter} from "mongodb";
+import {EntDbType, KeysDB, ProtoFilterType, TypeEntFields} from "../types/typesRepDB";
 import {TypeSortDir} from "../../IOtypes/queryTypes";
 
 
@@ -35,13 +35,15 @@ export function createSorter(sb: TypeEntFields, sd: TypeSortDir) {
     return s;
 } // Генерация сортировщика
 
-export function createAggregater() {
-    const s = {$lookup: {
+export function createAggregater(ek: KeysDB) {
+    const a: Document[] = [];
+    
+    if(ek == "posts") a.push({$lookup: {
         from: 'blogs',
         localField: 'blogId',
         foreignField: 'id',
         as: 'blogName'
-    }};
+    }}, {$unwind: '$blogName'}, {$set: {blogName: "$blogName.name"}});
     
-    return s;
+    return a;
 } // Генерация агрегата
