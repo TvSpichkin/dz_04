@@ -7,6 +7,8 @@ export type BlogDbType = {
     isMembership: boolean // Подписка на членство в сетевом журнале
 }; // Тип сетевого журнала в БД
 
+export type BlogDbTypeA = BlogDbType; // Тип сетевого журнала при извлечении из БД агрегацией
+
 export type BlogDbPutType = {
     name: string, // Имя; максимальная длина: 15
     description: string, // Описание; максимальная длина: 500

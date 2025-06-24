@@ -1,6 +1,6 @@
 import {ValueOf} from "../../methodsForTS";
-import {BlogDbPutType, BlogDbType, blogFields} from "./blogsDbTypes";
-import {PostDbPutType, PostDbType, postFields} from "./postsDbTypes";
+import {BlogDbPutType, BlogDbType, BlogDbTypeA, blogFields} from "./blogsDbTypes";
+import {PostDbPutType, PostDbType, PostDbTypeA, postFields} from "./postsDbTypes";
 
 
 export const EntFields = {
@@ -22,6 +22,7 @@ export type ProtoFilterType = {
 export type KeysDB = keyof DBType; // Ключи БД
 export type ValsDB = ValueOf<DBType>; // Значения БД
 export type EntDbType = BlogDbType | PostDbType; // Тип сущности в БД
+export type EntDbTypeA = BlogDbTypeA | PostDbTypeA; // Тип сущности при извлечении из БД агрегацией
 export type DbTypeFind = EntDbType | null; // Тип извлечённой сущности по идентификатору из БД
 export type keyIds = "id" | "blogId"; // Ключи идентификаторов от сущностей
 export type EntPutType = BlogDbPutType | PostDbPutType; // Тип изменения сущности в БД
