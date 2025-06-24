@@ -35,7 +35,7 @@ export function createSorter(sb: TypeEntFields, sd: TypeSortDir): Sort {
     return s;
 } // Генерация сортировщика
 
-export function createAggregater(ek: KeysDB, pf: ProtoFilterType[]) {
+export function createAggregator(ek: KeysDB, f: Filter<EntDbType>): Document[] {
     const a: Document[] = [];
     
     if(ek == "posts") a.push({$lookup: {
@@ -44,7 +44,7 @@ export function createAggregater(ek: KeysDB, pf: ProtoFilterType[]) {
         foreignField: 'id',
         as: 'blogName'
     }}, {$unwind: '$blogName'}, {$set: {blogName: "$blogName.name"}});
-    a.push({$match: createFilter(pf)});
+    a.push({$match: f});
     
     return a;
 } // Генерация агрегата

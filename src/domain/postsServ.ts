@@ -1,4 +1,4 @@
-import {PostDbType, PostDbPutType, postFields, TypePostFields} from "../db/types/postsDbTypes";
+import {PostDbType, PostDbPutType, postFields, TypePostFields, PostDbTypeA} from "../db/types/postsDbTypes";
 import {ProtoFilterType} from "../db/types/typesRepDB";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
@@ -13,12 +13,12 @@ export const postsServ = {
         const elemsSkip = pageSize*(page - 1), // Количество пропущенных элементов
         blogIdFilt: ProtoFilterType[] = blogId ? // Идентификатор сетевого журнала для генерации фильтра
         [{key: postFields.blogId, value: blogId, way: 0}] : [],
-        [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, blogIdFilt) as [number, PostDbType[]];
+        [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, blogIdFilt) as [number, PostDbTypeA[]];
         
         return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
-    async find(id: string): Promise<PostDbType | null> {
-        return repBD.read(entKey, +id) as Promise<PostDbType | null>;
+    async find(id: string): Promise<PostDbTypeA | null> {
+        return repBD.read(entKey, +id) as Promise<PostDbTypeA | null>;
     }, // Извлечение записи по идентификатору
     async findAndMap(id: string): Promise<PostViewModel> {
         const post = (await this.find(id))!; //! Этот метод используется после проверки существования

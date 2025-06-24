@@ -1,19 +1,22 @@
 import {db} from "../db";
-import {DBType, ProtoFilterType, KeysDB, ValsDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields} from "../types/typesRepDB";
+import {DBType, ProtoFilterType, KeysDB, EntDbType, DbTypeFind, keyIds, EntPutType, TypeEntFields, EntDbTypeA} from "../types/typesRepDB";
 import {TypeSortDir} from "../../IOtypes/queryTypes";
-import {createFilter, createSorter} from "./createFilter";
+import {createAggregator, createFilter, createSorter} from "./createFilter";
 
 
 export const repBD = {
-    async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snf: ProtoFilterType[]): Promise<[number, EntDbType[]]> {
+    async readAll(entKey: KeysDB, es: number, ps: number, sb: TypeEntFields, sd: TypeSortDir, snf: ProtoFilterType[]): Promise<[number, EntDbTypeA[]]> {
         const filter = createFilter(snf), // Создание поискового фильтра
+        aggregator = createAggregator(entKey, filter), // Создание агрегата
         sorter = createSorter(sb, sd); // Создание сортировщика
         
-        return Promise.all([db.collection<EntDbType>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
-            db.collection<EntDbType>(entKey).find(filter).sort(sorter).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
+        return Promise.all([db.collection<EntDbTypeA>(entKey).count(filter), // Извлечение количества элементов удовлетворяющих поисковому фильтру
+            db.collection<EntDbTypeA>(entKey).aggregate<EntDbTypeA>(aggregator).sort(sorter).skip(es).limit(ps).toArray()]); // Извлечение нужной порции сущностей удовлетворяющих поисковому фильтру
     }, // Извлечение всех сущностей
     async read(entKey: KeysDB, id: number): Promise<DbTypeFind> {
-        return db.collection<EntDbType>(entKey).findOne({id: id});
+        const aggregator = createAggregator(entKey, {id: id}); // Создание агрегата
+        
+        return (await db.collection<EntDbTypeA>(entKey).aggregate<EntDbTypeA>(aggregator).toArray())[0];
     }, // Извлечение сущности по идентификатору
     async write(entKey: KeysDB, entity: EntDbType): Promise<number> {
         const endId = await db.collection<EntDbType>(entKey).find({}).sort({$natural: -1}).limit(1).toArray();
