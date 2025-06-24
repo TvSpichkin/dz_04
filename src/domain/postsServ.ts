@@ -1,10 +1,10 @@
-import {PostDbType, PostDbPutType, postFields, TypePostFields, PostDbTypeA} from "../db/types/postsDbTypes";
+import {PostDbType, PostDbTypeA, PostDbPutType, postFields, TypePostFields} from "../db/types/postsDbTypes";
 import {ProtoFilterType} from "../db/types/typesRepDB";
 import {repBD} from "../db/repository/repDB";
 import {PostInputModel, PostViewModel} from "../IOtypes/postsTypes";
 import {TypeSortDir} from "../IOtypes/queryTypes";
 import {Paginator, paginator} from "./paginator";
-import {BlogDbType} from "../db/types/blogsDbTypes";
+import {BlogDbTypeA} from "../db/types/blogsDbTypes";
 
 const entKey = "posts";
 
@@ -15,14 +15,14 @@ export const postsServ = {
         [{key: postFields.blogId, value: blogId, way: 0}] : [],
         [totalCount, posts] = await repBD.readAll(entKey, elemsSkip, pageSize, sortBy, sortDirection, blogIdFilt) as [number, PostDbTypeA[]];
         
-        return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maper))) as Paginator<PostViewModel>; // Нумерация страниц
+        return paginator(page, pageSize, totalCount, await Promise.all(posts.map(this.maperA))) as Paginator<PostViewModel>; // Нумерация страниц
     }, // Извлечение всех записей
     async find(id: string): Promise<PostDbTypeA | null> {
         return repBD.read(entKey, +id) as Promise<PostDbTypeA | null>;
     }, // Извлечение записи по идентификатору
     async findAndMap(id: string): Promise<PostViewModel> {
         const post = (await this.find(id))!; //! Этот метод используется после проверки существования
-        return this.maper(post);
+        return this.maperA(post);
     }, // Извлечение и конвертация записи
     async create(post: PostInputModel): Promise<PostViewModel> {
         const newPost: PostDbType = {
@@ -50,17 +50,20 @@ export const postsServ = {
         };
         await repBD.edit(entKey, putPost, +id);
     }, // Изменение записи в БД
-    async maper(post: PostDbType): Promise<PostViewModel> {
+    async maperA(post: PostDbTypeA): Promise<PostViewModel> {
         const postForOutput: PostViewModel = {
             id: String(post.id),
             title: post.title,
             shortDescription: post.shortDescription,
             content: post.content,
             blogId: String(post.blogId),
-            blogName: (await repBD.read("blogs", post.blogId) as BlogDbType).name, //! Этот метод используется после проверки существования
+            blogName: post.blogName,
             createdAt: new Date(post.createdAt).toISOString()
         };
         
         return postForOutput;
+    }, // Конвертация агрегированных записей из БД в модельный вид
+    async maper(post: PostDbType): Promise<PostViewModel> {
+        return this.maperA({...post, blogName: (await repBD.read("blogs", post.blogId) as BlogDbTypeA).name}); // Этот метод используется после проверки существования
     } // Конвертация записей из БД в модельный вид
 }; // Работа с базой данных
