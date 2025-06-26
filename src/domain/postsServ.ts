@@ -64,6 +64,6 @@ export const postsServ = {
         return postForOutput;
     }, // Конвертация агрегированных записей из БД в модельный вид
     async maper(post: PostDbType): Promise<PostViewModel> {
-        return this.maperA({...post, blogName: (await repBD.read("blogs", post.blogId) as BlogDbTypeA).name}); // Этот метод используется после проверки существования
+        return postsServ.maperA({...post, blogName: (await repBD.read("blogs", post.blogId) as BlogDbTypeA).name}); // Этот метод используется после проверки существования
     } // Конвертация записей из БД в модельный вид
 }; // Работа с базой данных

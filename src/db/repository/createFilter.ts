@@ -38,13 +38,13 @@ export function createSorter(sb: TypeEntFields, sd: TypeSortDir): Sort {
 export function createAggregator(ek: KeysDB, f: Filter<EntDbType>): Document[] {
     const a: Document[] = [];
     
-    if(ek == "posts") a.push({$lookup: {
+    if(ek == "posts") a.push({$lookup: { // Добавление имени существующего сетевого журнала в запись
         from: 'blogs',
         localField: 'blogId',
         foreignField: 'id',
         as: 'blogName'
     }}, {$unwind: '$blogName'}, {$set: {blogName: "$blogName.name"}});
-    a.push({$match: f});
+    a.push({$match: f}); // Добавление фильтра в запрос
     
     return a;
 } // Генерация агрегата
