@@ -196,6 +196,7 @@ describe("/posts", () => {
         await queryPost().expect(200, pageData(tempPosts, 1, 10, totalCount));
         tempPosts = [...memPosts].sort((a, b) => +a.blogId - +b.blogId || +a.id - +b.id).slice(0, 10);
         await queryPost("sortBy=blogId&sortDirection=asc").expect(200, pageData(tempPosts, 1, 10, totalCount));
+        await queryPost("sortBy=blogName&sortDirection=asc").expect(200, pageData(tempPosts, 1, 10, totalCount));
         tempPosts = memPosts.slice(10, 20);
         await queryPost("pageNumber=2").expect(200, pageData(tempPosts, 2, 10, totalCount));
         tempPosts = memPosts.slice(0, 7);
