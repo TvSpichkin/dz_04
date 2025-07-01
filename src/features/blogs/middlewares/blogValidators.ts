@@ -36,7 +36,7 @@ export async function findBlogValidator(req: any, res: Response, next: NextFunct
 
 export const blogValidators = [
     adminMiddleware,
-
+    
     nameValidator,
     descriptionValidator,
     websiteUrlValidator,
