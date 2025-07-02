@@ -40,6 +40,6 @@ export const blogValidators = [
     nameValidator,
     descriptionValidator,
     websiteUrlValidator,
-
+    
     inputCheckErrorsMiddleware
 ]; // Набор проверок для создания и изменения сетевых журналов
