@@ -11,7 +11,7 @@ import {addBlogId} from "./addBlogId";
 
 async function checkExistBlog(blogId: string) {
     const findBlog = await blogsServ.find(blogId); // Поиск сетевого журнала
-
+    
     if(!findBlog) return Promise.reject(); // Возврат обещания
 } // Проверка существования заданного сетевого журнала
 
