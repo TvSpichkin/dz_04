@@ -41,7 +41,7 @@ export async function findPostValidator(req: ReqParam<{id: string}>, res: Respon
 
 export const postValidators = [
     adminMiddleware,
-
+    
     titleValidator,
     shortDescriptionValidator,
     contentValidator,
