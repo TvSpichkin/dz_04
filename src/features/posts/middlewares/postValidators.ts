@@ -46,7 +46,7 @@ export const postValidators = [
     shortDescriptionValidator,
     contentValidator,
     blogIdValidator,
-
+    
     inputCheckErrorsMiddleware
 ]; // Набор проверок для создания и изменения записей
 
