@@ -52,7 +52,7 @@ export const postValidators = [
 
 export const postValWithoutBID = [
     adminMiddleware,
-
+    
     titleValidator,
     shortDescriptionValidator,
     contentValidator,
